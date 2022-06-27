@@ -11,9 +11,9 @@ void cell::oscillator::retrigger()
         phase = 0.0f;
 }
 
-void cell::oscillator::set_delta(const float freq)
+void cell::oscillator::set_delta(const float Hz)
 { 
-        frequency = freq;
+        frequency = Hz;
         delta = frequency * TAO / settings->sample_rate; 
 }
 
@@ -38,7 +38,7 @@ cell::oscillator::oscillator(iospecs* io): settings(io)
         reset();
 }
 
-// Init Settings before setting delta
+// Init Settings before setting delta[0]
 cell::oscillator::oscillator()
 {
 
@@ -213,12 +213,12 @@ void cell::oTriangle(oscillator* o)
 // {
 //         float rise = o->pwm * TAO;
 //         float fall = TAO - rise;
-//         float rise_delta = (rise != 0.0f) ? (2.0f * o->amplitude / rise) : 0.0f;
-//         float fall_delta = (fall != 0.0f) ? (2.0f * o->amplitude / fall) : 0.0f;
+//         float rise_delta[0] = (rise != 0.0f) ? (2.0f * o->amplitude / rise) : 0.0f;
+//         float fall_delta[0] = (fall != 0.0f) ? (2.0f * o->amplitude / fall) : 0.0f;
 
 //         if (o->phase > TAO) o->phase -= TAO;
-//         if (o->phase < rise) o->out.y = - o->amplitude + o->phase * rise_delta;
-//         else o->out.y = o->amplitude - (o->phase - rise) * fall_delta;
+//         if (o->phase < rise) o->out.y = - o->amplitude + o->phase * rise_delta[0];
+//         else o->out.y = o->amplitude - (o->phase - rise) * fall_delta[0];
 //         o->phase += o->delta + (o->shift - 0.5f) * o->range * 2.0f;
 // }
 
@@ -319,7 +319,7 @@ void cell::oVanDerPol(oscillator* o)// OK
 // //         d.mu = (o->pwmcv-0.5f)*4.0f;
 // //         //d.x  *= o->phasecv*2;
 // //         d.f  = (o->phasecv-0.5f)*2.0f; 
-// //         d.delta = o->delta;
+// //         d.delta[0] = o->delta;
 // //         d.iterate();
 // //         o->out.y = (d.y)*0.2f*o->amplitude;
 
@@ -469,12 +469,54 @@ void cell::oChenLee(oscillator* o)
         if(o->phase >= PI) o->phase -= TAO;
 }
 
+void cell::oSphere(oscillator* o)
+{       
+        // x=cos(ϕ)sin(θ)
+        // y=sin(ϕ)sin(θ)
+        // z=cos(θ)
+        //double S = sinf(o->phase + o->pm);
+        o->out.x = cosf(o->latitude + o->pm) * sinf(o->phase + o->pm) * o->amplitude * o->am *4;
+        o->out.y = sinf(o->latitude + o->pm) * sinf(o->phase + o->pm) * o->amplitude * o->am *4;
+        o->out.z = cosf(o->phase + o->pm) * o->amplitude * o->am * 4;
+
+        o->latitude += o->theta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
+        if(o->latitude >= TAO) o->latitude -= TAO;
+        
+        o->phase += o->delta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
+        if(o->phase >= TAO) o->phase -= TAO;
+}
+
+void cell::oCube(oscillator* o)
+{       
+        float pw = (o->pwm * 1.9f + 0.05f) * PI;
+        float ax = 0, bx = 0;
+        float ay = 0, by = 0;
+        float az = 0, bz = 0;
+        for(int i = 1; i <= o->nharm; i++)
+        {
+                ax += sin(o->phase * i) / i;
+                bx += sin((o->phase + pw) * i) / i;
+
+                ay += cos(o->phase * i) / i;
+                by += cos((o->phase + pw) * i) / i;
+
+                // az += sin(o->phase * i) * cos(o->phase * i) / i;
+                // bz += sin((o->phase + pw) * i) * cos((o->phase + pw) * i) / i;
+        }
+        o->out.y = (ax - bx) * o->amplitude * o->am;
+        o->out.x = (ay - by) * o->amplitude * o->am;
+        // o->out.z = (sin(o->phase) * cos(o->phase) - sin(o->phase + pw) * cos(o->phase + pw)) * o->amplitude * o->am;
+
+        o->phase += o->delta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
+        if(o->phase >= TAO) o->phase -= TAO;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 // 2D //////////////////////////////////////////////////////////////////////////////////
 void cell::oSine2D(oscillator* o)
 {       
-        o->out.y = sin(o->phase + o->pm) * o->amplitude * o->am;
         o->out.x = cos(o->phase + o->pm) * o->amplitude * o->am;
+        o->out.y = sin(o->phase + o->pm) * o->amplitude * o->am;
         o->phase += o->delta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
         if(o->phase >= TAO) o->phase -= TAO;
 }

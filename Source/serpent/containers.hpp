@@ -3,6 +3,7 @@
 // V.0.1.2 2022-06-20 (C) Unmanned
 ////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
+#include <cmath>
 
 namespace cell {
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -15,6 +16,29 @@ struct point3d
     T z;
 };
 
+template <typename T>
+inline point3d<T> RotateX(point3d<T> o, T theta)
+{
+    return point3d<T> { o.x, o.y*cos(theta) - o.z*sin(theta), o.y*sin(theta) + o.z*cos(theta)};
+}
+
+template <typename T>
+inline point3d<T> RotateY(point3d<T> o, T theta)
+{
+    return point3d<T> { o.x*cos(theta) + o.z*sin(theta), o.y, o.z*cos(theta) - o.x*sin(theta)};
+}
+
+template <typename T>
+inline point3d<T> RotateZ(point3d<T> o, T theta)
+{
+    return point3d<T> { o.x*cos(theta) - o.y*sin(theta), o.x*sin(theta) + o.y*cos(theta), o.z};
+}
+
+template<typename T> 
+point3d<T> sphericalToCartesian(const T theta, const T phi) 
+{ 
+    return point3d<T> { cos(phi) * sin(theta), sin(phi) * sin(theta), cos(theta)}; 
+}; 
 ////////////////////////////////////////////////////////////////////////////////////////
 // 2D Point ////////////////////////////////////////////////////////////////////////////
 template <typename T>

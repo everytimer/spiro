@@ -5,19 +5,19 @@
 Sockets::Sockets(int x, int y, int w, int h, int n)
 {
     bay = new cell::patchbay(w, h, n);
-    // Outputs /////////////////////////////////////////////
+    // Outputs ////////////////////////////////////
     bay->set_socket(  5,   5, 5, 0, 0x0FF000FF, 0);
     bay->set_socket(  5,  25, 5, 1, 0x0FE000FF, 0);
     bay->set_socket(  5,  45, 5, 2, 0x0FD000FF, 0);
     bay->set_socket(  5,  65, 5, 3, 0x0FC000FF, 0);
     bay->set_socket(  5,  85, 5, 4, 0x0FB000FF, 0);
-    // Inputs //////////////////////////////////////////////
+    // Inputs /////////////////////////////////////
     bay->set_socket(293, 105, 5, 5, 0x1FA000FF, 1);
     bay->set_socket(293, 125, 5, 6, 0x1F9000FF, 1);
     bay->set_socket(293, 145, 5, 7, 0x1F8000FF, 1);
     bay->set_socket(293, 165, 5, 8, 0x1F7000FF, 1);
     bay->set_socket(293, 185, 5, 9, 0x1F6000FF, 1);
-
+    ///////////////////////////////////////////////
     bay->draw();
 };
 

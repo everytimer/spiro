@@ -26,11 +26,16 @@ class spawner
         int oscn = 1;                 // Oscillators quantity
         float   volume = 0.5f;        // Overall amplitude
         unsigned long long departed = 0; // Samples counter
+
+        float theta = 0;
+        float eta = 0;
+        float phi = 0;
         void spawn();
         void init();
         void free();
         void reset();
         void trigger(float);
+        void trigger2(float);
         void iterate();
         spawner(frame<point3d<float>>*, iospecs*);
         ~spawner();

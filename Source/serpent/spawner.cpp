@@ -11,11 +11,14 @@ void cell::spawner::spawn()
 {
     for(int i = 0; i < settings->buffer_size; i++)
     {
-        form[25](&vco[0]);
-        vco[0].out.x *= volume;
-        vco[0].out.y *= volume;
-        vco[0].out.z *= volume;
-        data->set(i, 0, vco[0].out);
+        form[24](&vco[0]);
+        auto O = RotateY(vco[0].out, theta);
+             O = RotateX(O, eta);
+             O = RotateZ(O, phi);
+        O.x *= volume;
+        O.y *= volume;
+        O.z *= volume;
+        data->set(i, 0, O);
     }
 }
 
@@ -29,6 +32,11 @@ void cell::spawner::trigger(float Hz)
 {
     vco[0].frequency = Hz;
     vco[0].reset();
+}
+
+void cell::spawner::trigger2(float Hz)
+{
+    vco[0].theta = Hz;
 }
 
 void cell::spawner::init()

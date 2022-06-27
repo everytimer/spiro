@@ -23,10 +23,12 @@ class oscillator
         iospecs*  settings  = nullptr;
         sequence<float>* o = nullptr; // Harmonics table
         sequence<float>* w = nullptr; // Wave table
-        int     nharm = 8;            // Number of harmonics
+        int     nharm = 16;           // Number of harmonics
         float   phase = 0.0f;         // Current phase
         float   delta = 0.0f;         // Phase increment
-        float   frequency = 440.0f;   // Frequency in Hz
+        float   theta = 0.0f;         // Latitude increment
+        float   latitude = 0.0f;
+        float   frequency = 440.0;    // Frequency in Hz
         float   amplitude = 0.2f;     // Overall amplitude
         float   eax, ebx, ecx;        // Feedback memory
         float   fm = 0.0f;            // Frequency modulation
@@ -80,6 +82,9 @@ void oYuWang(oscillator*);
 void oRoessler(oscillator*);
 void oLorenz(oscillator*);
 void oChenLee(oscillator*);
+void oSphere(oscillator*);
+void oCube(oscillator*);
+
 /////////////////////////////////////////////////
 // 2D ///////////////////////////////////////////
 void oSine2D(oscillator*);
@@ -127,9 +132,12 @@ inline void (*form[])(oscillator*) =
         oRoessler,      // 21
         oLorenz,        // 22
         oChenLee,       // 23
+        oSphere,        // 24
+        oCube,          // 25
+
         // 2D ///////////////
-        oSine2D,        // 24
-        oSquare2D,      // 25
+        oSine2D,        // 26
+        oSquare2D,      // 27
         oKaplanYorke,   // 26
         // LFOs /////////////
         lfoSine,        //

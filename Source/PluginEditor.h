@@ -33,7 +33,14 @@ class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juc
         Interface interface;
 
         GribAudioProcessor& audioProcessor;
+        juce::Slider spRotateX;
+        juce::Slider spRotateY;
+        juce::Slider spRotateZ;
+       
+
         NumberBox nbCoarse;
+        NumberBox nbCoarse2;
+
         NumberBox nbVolume;
         NumberBox nbDetune;
         NumberBox nbWarp;

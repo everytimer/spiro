@@ -13,11 +13,30 @@ GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : Aud
     setSize (WIDTH, HEIGHT);
     setWantsKeyboardFocus (true);
 
+    spRotateX.setColour (juce::Slider::trackColourId, cYellow);
+    spRotateX.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
+    spRotateX.setRange  (0, M_PI * 2, 0);
+
+    spRotateY.setColour (juce::Slider::trackColourId, cYellow);
+    spRotateY.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
+    spRotateY.setRange  (0, M_PI * 2, 0);
+
+    spRotateZ.setColour (juce::Slider::trackColourId, cYellow);
+    spRotateZ.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
+    spRotateZ.setRange  (0, M_PI * 2, 0);
+
+
     nbCoarse.setColour (juce::Slider::textBoxTextColourId, cBlue);
     nbCoarse.setColour (juce::Slider::textBoxOutlineColourId, cBlue);
     nbCoarse.setRange  (40, 8000, 0);
     nbCoarse.setTextValueSuffix (" Hz");
     nbCoarse.setNumDecimalPlacesToDisplay (0);
+
+    nbCoarse2.setColour (juce::Slider::textBoxTextColourId, cBlue);
+    nbCoarse2.setColour (juce::Slider::textBoxOutlineColourId, cBlue);
+    nbCoarse2.setRange  (0, 1, 0);
+    nbCoarse2.setTextValueSuffix (" Rad");
+    nbCoarse2.setNumDecimalPlacesToDisplay (3);
 
 
     nbVolume.setColour (juce::Slider::textBoxTextColourId, cGreen);
@@ -58,6 +77,7 @@ GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : Aud
     nbH8.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
 
     addAndMakeVisible (nbCoarse);
+    addAndMakeVisible (nbCoarse2);
     addAndMakeVisible (nbVolume);
     addAndMakeVisible (nbDetune);
     addAndMakeVisible (nbWarp);
@@ -72,12 +92,21 @@ GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : Aud
     addAndMakeVisible (nbH7);
     addAndMakeVisible (nbH8);
     addAndMakeVisible (SC);
+    addAndMakeVisible(spRotateX);
+    addAndMakeVisible(spRotateY);
+    addAndMakeVisible(spRotateZ);
+
 
     rWaveDisplay.setBounds  (20, 45, 256, 128);
     rSpiroDisplay.setBounds(280, 45, 192, 128);
 
     nbCoarse.onValueChange  = [this] { audioProcessor.feed->renderer->trigger(nbCoarse.getValue()); };
+    nbCoarse2.onValueChange  = [this] { audioProcessor.feed->renderer->trigger2(nbCoarse2.getValue()); };
+
     // nbFM.onValueChange      = [this] { audioProcessor.osc2.frequency = nbFM.getValue(); audioProcessor.osc2.set_delta(); };
+    spRotateX.onValueChange  = [this] { audioProcessor.feed->renderer->eta = spRotateX.getValue(); };
+    spRotateY.onValueChange  = [this] { audioProcessor.feed->renderer->theta = spRotateY.getValue(); };
+    spRotateZ.onValueChange  = [this] { audioProcessor.feed->renderer->phi = spRotateZ.getValue(); };
 
     nbVolume.onValueChange     = [this] { audioProcessor.feed->renderer->volume = nbVolume.getValue(); };
     // nbDetune.onValueChange  = [this] { audioProcessor.osc.shift = nbDetune.getValue(); audioProcessor.osc.set_shift();};
@@ -215,6 +244,7 @@ void GribAudioProcessorEditor::paint (juce::Graphics& g)
 void GribAudioProcessorEditor::resized()
 {
     nbCoarse.setBounds ( 20,  20, 60, 20);
+    nbCoarse2.setBounds ( 360,  20, 60, 20);
     nbVolume.setBounds ( 85,  20, 60, 20);
     nbDetune.setBounds (150,  20, 60, 20);
     nbWarp.setBounds   (215,  20, 60, 20);
@@ -229,8 +259,19 @@ void GribAudioProcessorEditor::resized()
     nbH7.setBounds     (410, 400, 60, 20);
     nbH8.setBounds     (475, 400, 60, 20);
     
-    SC.setBounds      (20, 180, 300, 200);
+    SC.setBounds       ( 20, 180, 300, 200);
+    
+    spRotateX.setBounds (500, 20, 10,  100);
+    spRotateX.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
+    spRotateX.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical );
 
+    spRotateY.setBounds (360, 180, 100,  10);
+    spRotateY.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
+    spRotateY.setSliderStyle(juce::Slider::SliderStyle::LinearBar );
+
+    spRotateZ.setBounds (360, 200, 100,  10);
+    spRotateZ.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
+    spRotateZ.setSliderStyle(juce::Slider::SliderStyle::LinearBar );
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
