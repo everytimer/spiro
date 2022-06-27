@@ -51,6 +51,7 @@ void Sockets::drawIns(juce::Graphics& g, juce::Colour colour, int io = -1)
     }
 }
 
+
 void Sockets::drawSockets(juce::Graphics& g, juce::Colour colour)
 {
     auto yo = area.getY();
