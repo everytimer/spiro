@@ -10,7 +10,7 @@
 
 namespace cell {
 
-void hBlur(frame<float>* data, uint scale = 1)
+inline void hBlur(frame<float>* data, uint scale = 1)
 {
     int range = scale * 2 + 1;
     for(uint y = 0; y < data->height; y++)
@@ -28,7 +28,7 @@ void hBlur(frame<float>* data, uint scale = 1)
     }
 }
 
-void vBlur(frame<float>* data, uint scale = 1)
+inline void vBlur(frame<float>* data, uint scale = 1)
 {
     int range = scale * 2 + 1;  
     for(uint x = 0; x < data->width; x++)
@@ -46,7 +46,7 @@ void vBlur(frame<float>* data, uint scale = 1)
     }
 }
 
-void boxBlur(frame<float>* data, uint scale = 1)
+inline void boxBlur(frame<float>* data, uint scale = 1)
 {
     int range = scale * 2 + 1;
     for(uint y = 0; y < data->height; y++)

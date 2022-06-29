@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="h0jLtr" name="grib" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginCharacteristicsValue="pluginIsSynth"
+<JUCERPROJECT id="h0jLtr" name="spiro" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
               pluginFormats="buildStandalone,buildVST3" pluginVST3Category="Instrument,Synth"
-              cppLanguageStandard="17" companyName="unmanned">
-  <MAINGROUP id="fQRmMz" name="grib">
+              cppLanguageStandard="17" companyName="unmanned" pluginCode="Spir"
+              pluginManufacturerCode="Uman">
+  <MAINGROUP id="fQRmMz" name="spiro">
     <GROUP id="{AEA3CE57-0D82-BF41-953F-F3D605F1E0AD}" name="serpent">
       <GROUP id="{55AEAFAF-C215-AEDE-2DB8-0E5D71D2A519}" name="graph">
         <FILE id="Zfwb2G" name="blur.hpp" compile="0" resource="0" file="Source/serpent/graph/blur.hpp"/>
@@ -50,7 +51,6 @@
       <FILE id="RNo4hJ" name="containers.hpp" compile="0" resource="0" file="Source/serpent/containers.hpp"/>
       <FILE id="VzNvLE" name="colour_functions.hpp" compile="0" resource="0"
             file="Source/serpent/colour_functions.hpp"/>
-      <FILE id="suG381" name="catmull_rom.hpp" compile="0" resource="0" file="Source/serpent/catmull_rom.hpp"/>
       <FILE id="UUrCFu" name="blur.hpp" compile="0" resource="0" file="Source/serpent/blur.hpp"/>
       <FILE id="Mwj4HK" name="automata.h" compile="0" resource="0" file="Source/serpent/automata.h"/>
       <FILE id="OLMx1v" name="automata.cpp" compile="1" resource="0" file="Source/serpent/automata.cpp"/>
@@ -73,6 +73,10 @@
       <GROUP id="{22DBE737-6B22-673F-F2EE-8E243637B1D5}" name="assets">
         <FILE id="D6zxdf" name="Knob_C01.png" compile="0" resource="1" file="Source/assets/Knob_C01.png"/>
       </GROUP>
+      <FILE id="GHBlNp" name="fSlider.h" compile="0" resource="0" file="Source/fSlider.h"/>
+      <FILE id="NvtCqt" name="fSlider.cpp" compile="1" resource="0" file="Source/fSlider.cpp"/>
+      <FILE id="Bvd3mz" name="InfSlider.h" compile="0" resource="0" file="Source/InfSlider.h"/>
+      <FILE id="s4Ro3Q" name="InfSlider.cpp" compile="1" resource="0" file="Source/InfSlider.cpp"/>
       <FILE id="rmtpvK" name="Socket.h" compile="0" resource="0" file="Source/Socket.h"/>
       <FILE id="JvQfIq" name="Socket.cpp" compile="1" resource="0" file="Source/Socket.cpp"/>
       <FILE id="tvFU9m" name="Colours.hpp" compile="0" resource="0" file="Source/Colours.hpp"/>

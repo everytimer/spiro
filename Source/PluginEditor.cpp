@@ -32,15 +32,17 @@ GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : Aud
     nbCoarse.setTextValueSuffix (" Hz");
     nbCoarse.setNumDecimalPlacesToDisplay (0);
 
-    nbCoarse2.setColour (juce::Slider::textBoxTextColourId, cBlue);
-    nbCoarse2.setColour (juce::Slider::textBoxOutlineColourId, cBlue);
-    nbCoarse2.setRange  (0, 1, 0);
-    nbCoarse2.setTextValueSuffix (" Rad");
-    nbCoarse2.setNumDecimalPlacesToDisplay (3);
+    nbTheta.setColour (juce::Slider::textBoxTextColourId, cBlue);
+    nbTheta.setColour (juce::Slider::textBoxOutlineColourId, cBlue);
+    nbTheta.setRange  (0, 1, 0);
+    nbTheta.setTextValueSuffix ("");
+    nbTheta.setNumDecimalPlacesToDisplay (3);
 
+    wdVolume.setColour (juce::Slider::trackColourId, cYellow);
+    wdVolume.setColour (juce::Slider::backgroundColourId, cYellow);
 
-    nbVolume.setColour (juce::Slider::textBoxTextColourId, cGreen);
-    nbVolume.setColour (juce::Slider::textBoxOutlineColourId, cGreen);
+    nbPwm.setColour (juce::Slider::textBoxTextColourId, cGreen);
+    nbPwm.setColour (juce::Slider::textBoxOutlineColourId, cGreen);
 
     nbDetune.setColour (juce::Slider::textBoxTextColourId, cYellow);
     nbDetune.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
@@ -52,75 +54,39 @@ GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : Aud
     nbAmp.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
 
 
-    nbH1.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbH1.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
-    nbH2.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbH2.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
-    nbH3.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbH3.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
-    nbH4.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbH4.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
-    nbH5.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbH5.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
-    nbH6.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbH6.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
-    nbH7.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbH7.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
-    nbH8.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbH8.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
     addAndMakeVisible (nbCoarse);
-    addAndMakeVisible (nbCoarse2);
-    addAndMakeVisible (nbVolume);
+    addAndMakeVisible (nbTheta);
+    addAndMakeVisible (nbPwm);
     addAndMakeVisible (nbDetune);
-    addAndMakeVisible (nbWarp);
     addAndMakeVisible (nbAmp);
 
-    addAndMakeVisible (nbH1);
-    addAndMakeVisible (nbH2);
-    addAndMakeVisible (nbH3);
-    addAndMakeVisible (nbH4);
-    addAndMakeVisible (nbH5);
-    addAndMakeVisible (nbH6);
-    addAndMakeVisible (nbH7);
-    addAndMakeVisible (nbH8);
-    addAndMakeVisible (SC);
-    addAndMakeVisible(spRotateX);
-    addAndMakeVisible(spRotateY);
-    addAndMakeVisible(spRotateZ);
+    // addAndMakeVisible (nbWarp);
+    addAndMakeVisible (wdVolume);
+
+    // addAndMakeVisible (SC);
+    addAndMakeVisible (spRotateX);
+    addAndMakeVisible (spRotateY);
+    addAndMakeVisible (spRotateZ);
 
 
-    rWaveDisplay.setBounds  (20, 45, 256, 128);
-    rSpiroDisplay.setBounds(280, 45, 192, 128);
+    rWaveDisplay.setBounds (680, 240, 192,  96);
+    rSpiroDisplay.setBounds(680,  42, 192, 192);
 
-    nbCoarse.onValueChange  = [this] { audioProcessor.feed->renderer->trigger(nbCoarse.getValue()); };
-    nbCoarse2.onValueChange  = [this] { audioProcessor.feed->renderer->trigger2(nbCoarse2.getValue()); };
+    nbCoarse.onValueChange     = [this] { audioProcessor.feed->renderer->trigger(nbCoarse.getValue()); };
+    nbTheta.onValueChange    = [this] { audioProcessor.feed->renderer->trigger2(nbTheta.getValue()); };
+    nbPwm.onValueChange    = [this] { audioProcessor.feed->renderer->vco[0].pwm = nbPwm.getValue(); };
 
     // nbFM.onValueChange      = [this] { audioProcessor.osc2.frequency = nbFM.getValue(); audioProcessor.osc2.set_delta(); };
-    spRotateX.onValueChange  = [this] { audioProcessor.feed->renderer->eta = spRotateX.getValue(); };
-    spRotateY.onValueChange  = [this] { audioProcessor.feed->renderer->theta = spRotateY.getValue(); };
-    spRotateZ.onValueChange  = [this] { audioProcessor.feed->renderer->phi = spRotateZ.getValue(); };
+    spRotateX.onValueChange    = [this] { audioProcessor.feed->renderer->angle[0] = spRotateX.getValue(); };
+    spRotateY.onValueChange    = [this] { audioProcessor.feed->renderer->angle[1] = spRotateY.getValue(); };
+    spRotateZ.onValueChange    = [this] { audioProcessor.feed->renderer->angle[2] = spRotateZ.getValue(); };
 
-    nbVolume.onValueChange     = [this] { audioProcessor.feed->renderer->volume = nbVolume.getValue(); };
+    wdVolume.onValueChange     = [this] { audioProcessor.feed->renderer->volume = wdVolume.getValue(); };
     // nbDetune.onValueChange  = [this] { audioProcessor.osc.shift = nbDetune.getValue(); audioProcessor.osc.set_shift();};
     // nbWarp.onValueChange    = [this] { audioProcessor.osc.warp = nbWarp.getValue(); };
     // nbAmp.onValueChange     = [this] { audioProcessor.osc.amplitude = nbAmp.getValue(); };
 
-    // nbH1.onValueChange      = [this] { audioProcessor.ovt->data[0] = nbH1.getValue(); };
-    // nbH2.onValueChange      = [this] { audioProcessor.ovt->data[1] = nbH2.getValue(); };
-    // nbH3.onValueChange      = [this] { audioProcessor.ovt->data[2] = nbH3.getValue(); };
-    // nbH4.onValueChange      = [this] { audioProcessor.ovt->data[3] = nbH4.getValue(); };
-    // nbH5.onValueChange      = [this] { audioProcessor.ovt->data[4] = nbH5.getValue(); };
-    // nbH6.onValueChange      = [this] { audioProcessor.ovt->data[5] = nbH6.getValue(); };
-    // nbH7.onValueChange      = [this] { audioProcessor.ovt->data[6] = nbH7.getValue(); };
-    // nbH8.onValueChange      = [this] { audioProcessor.ovt->data[7] = nbH8.getValue(); };
+
     spCanvas = new cell::frame<float>(rSpiroDisplay.getWidth(), rSpiroDisplay.getHeight());
     spCanvas->clr(0.0f);
     wdCanvas = new cell::frame<float>(rWaveDisplay.getWidth(), rWaveDisplay.getHeight());
@@ -238,40 +204,35 @@ void GribAudioProcessorEditor::paint (juce::Graphics& g)
     g.setColour (cFastBlack);
     g.drawRect  (0, 0, WIDTH, HEIGHT);
     WaveDisplay (g, 80.0f);
-    SpiroDisplay(g, 80.0f);
+    SpiroDisplay(g, 500.0f);
 }
 
 void GribAudioProcessorEditor::resized()
 {
-    nbCoarse.setBounds ( 20,  20, 60, 20);
-    nbCoarse2.setBounds ( 360,  20, 60, 20);
-    nbVolume.setBounds ( 85,  20, 60, 20);
-    nbDetune.setBounds (150,  20, 60, 20);
-    nbWarp.setBounds   (215,  20, 60, 20);
-    nbAmp.setBounds    (280,  20, 60, 20);
+    // SC.setBounds       ( 220, 180, 300, 200);
 
-    nbH1.setBounds     ( 20, 400, 60, 20);
-    nbH2.setBounds     ( 85, 400, 60, 20);
-    nbH3.setBounds     (150, 400, 60, 20);
-    nbH4.setBounds     (215, 400, 60, 20);
-    nbH5.setBounds     (280, 400, 60, 20);
-    nbH6.setBounds     (345, 400, 60, 20);
-    nbH7.setBounds     (410, 400, 60, 20);
-    nbH8.setBounds     (475, 400, 60, 20);
-    
-    SC.setBounds       ( 20, 180, 300, 200);
-    
-    spRotateX.setBounds (500, 20, 10,  100);
-    spRotateX.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    spRotateX.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical );
+    nbCoarse.setBounds (  20,  20,  60,  20);
+    nbTheta.setBounds  (  20,  45,  60,  20);
+    nbPwm.setBounds    (  20,  70,  60,  20);
+    nbDetune.setBounds (  20,  95,  60,  20);
+    nbAmp.setBounds    (  20, 120,  60,  20);
 
-    spRotateY.setBounds (360, 180, 100,  10);
-    spRotateY.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    spRotateY.setSliderStyle(juce::Slider::SliderStyle::LinearBar );
+    nbWarp.setBounds   (  20, 120,  60,  20);
 
-    spRotateZ.setBounds (360, 200, 100,  10);
-    spRotateZ.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    spRotateZ.setSliderStyle(juce::Slider::SliderStyle::LinearBar );
+    wdVolume.setBounds ( 680,  20, 192,  16);
+
+
+    spRotateX.setBounds (660,  42 , 15,  60);
+    // spRotateX.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
+    // spRotateX.setSliderStyle(juce::Slider::SliderStyle::LinearBar );
+
+    spRotateY.setBounds (660, 108,  15,  60);
+    // spRotateY.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
+    // spRotateY.setSliderStyle(juce::Slider::SliderStyle::LinearBar );
+
+    spRotateZ.setBounds (660, 174,  15,  60);
+    // spRotateZ.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
+    // spRotateZ.setSliderStyle(juce::Slider::SliderStyle::LinearBar );
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -27,9 +27,8 @@ class spawner
         float   volume = 0.5f;        // Overall amplitude
         unsigned long long departed = 0; // Samples counter
 
-        float theta = 0;
-        float eta = 0;
-        float phi = 0;
+        float angle[3];
+
         void spawn();
         void init();
         void free();

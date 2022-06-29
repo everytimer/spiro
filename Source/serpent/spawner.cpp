@@ -12,13 +12,11 @@ void cell::spawner::spawn()
     for(int i = 0; i < settings->buffer_size; i++)
     {
         form[24](&vco[0]);
-        auto O = RotateY(vco[0].out, theta);
-             O = RotateX(O, eta);
-             O = RotateZ(O, phi);
-        O.x *= volume;
-        O.y *= volume;
-        O.z *= volume;
-        data->set(i, 0, O);
+        auto o = Rotate(vco[0].out, angle[0], angle[1], angle[2]);
+        o.x *= volume;
+        o.y *= volume;
+        o.z *= volume;
+        data->set(i, 0, o);
     }
 }
 

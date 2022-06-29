@@ -5,14 +5,16 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "NumberBox.h"
+#include "InfSlider.h"
+#include "fSlider.h"
 #include "Interface.h"
 #include "Socket.h"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juce::Timer//, public juce::MidiInputCallback
 {
     public:
-        uint WIDTH  = 640;
-        uint HEIGHT = 480;
+        uint WIDTH  = 900;
+        uint HEIGHT = 506;
         juce::Rectangle<int> rWaveDisplay;
         juce::Rectangle<int> rSpiroDisplay;
 
@@ -33,27 +35,23 @@ class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juc
         Interface interface;
 
         GribAudioProcessor& audioProcessor;
-        juce::Slider spRotateX;
-        juce::Slider spRotateY;
-        juce::Slider spRotateZ;
+        InfSlider spRotateX;
+        InfSlider spRotateY;
+        InfSlider spRotateZ;
        
 
         NumberBox nbCoarse;
-        NumberBox nbCoarse2;
-
-        NumberBox nbVolume;
         NumberBox nbDetune;
+        NumberBox nbTheta;
+        NumberBox nbAmp; 
+        NumberBox nbPwm;
+        NumberBox nbFm;
+
         NumberBox nbWarp;
-        NumberBox nbAmp;  
-        
-        NumberBox nbH1;        
-        NumberBox nbH2;    
-        NumberBox nbH3;    
-        NumberBox nbH4;    
-        NumberBox nbH5;    
-        NumberBox nbH6;    
-        NumberBox nbH7;    
-        NumberBox nbH8;    
+         
+        juce::Label fmLabel;
+        fSlider   wdVolume;
+
         // juce::Slider sliderKnob {juce::Slider::SliderStyle::Rotary, juce::Slider::TextBoxAbove};
 
 

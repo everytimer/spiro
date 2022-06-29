@@ -471,13 +471,10 @@ void cell::oChenLee(oscillator* o)
 
 void cell::oSphere(oscillator* o)
 {       
-        // x=cos(ϕ)sin(θ)
-        // y=sin(ϕ)sin(θ)
-        // z=cos(θ)
-        //double S = sinf(o->phase + o->pm);
-        o->out.x = cosf(o->latitude + o->pm) * sinf(o->phase + o->pm) * o->amplitude * o->am *4;
-        o->out.y = sinf(o->latitude + o->pm) * sinf(o->phase + o->pm) * o->amplitude * o->am *4;
-        o->out.z = cosf(o->phase + o->pm) * o->amplitude * o->am * 4;
+        float  S = sinf(o->phase + o->pm);
+        o->out.x = cosf(o->latitude + o->pm) * S * o->amplitude * o->am;
+        o->out.y = sinf(o->latitude + o->pm) * S * o->amplitude * o->am;
+        o->out.z = cosf(o->phase + o->pm) * o->amplitude * o->am;
 
         o->latitude += o->theta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
         if(o->latitude >= TAO) o->latitude -= TAO;
@@ -485,6 +482,7 @@ void cell::oSphere(oscillator* o)
         o->phase += o->delta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
         if(o->phase >= TAO) o->phase -= TAO;
 }
+
 
 void cell::oCube(oscillator* o)
 {       
@@ -494,21 +492,32 @@ void cell::oCube(oscillator* o)
         float az = 0, bz = 0;
         for(int i = 1; i <= o->nharm; i++)
         {
-                ax += sin(o->phase * i) / i;
-                bx += sin((o->phase + pw) * i) / i;
+                // float  S = sinf(o->phase + o->pm);
+                // o->out.x = cosf(o->latitude + o->pm) * S * o->amplitude * o->am;
+                // o->out.y = sinf(o->latitude + o->pm) * S * o->amplitude * o->am;
+                // o->out.z = cosf(o->phase + o->pm) * o->amplitude * o->am;
 
-                ay += cos(o->phase * i) / i;
-                by += cos((o->phase + pw) * i) / i;
+                float  So = sinf(o->phase * i);
+                float  Sp = sinf((o->phase + pw) * i);
+                
+                ax += cosf( o->latitude * i)       * So / i;
+                bx += cosf((o->latitude + pw) * i) * Sp / i;
 
-                // az += sin(o->phase * i) * cos(o->phase * i) / i;
-                // bz += sin((o->phase + pw) * i) * cos((o->phase + pw) * i) / i;
+                ay += sinf( o->latitude * i)       * So / i;
+                by += sinf((o->latitude + pw) * i) * Sp / i;
+
+                az += cosf( o->phase * i) / i;
+                bz += cosf((o->phase + pw) * i) / i;
         }
         o->out.y = (ax - bx) * o->amplitude * o->am;
         o->out.x = (ay - by) * o->amplitude * o->am;
-        // o->out.z = (sin(o->phase) * cos(o->phase) - sin(o->phase + pw) * cos(o->phase + pw)) * o->amplitude * o->am;
+        o->out.z = (az - bz) * o->amplitude * o->am;
 
         o->phase += o->delta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
         if(o->phase >= TAO) o->phase -= TAO;
+
+        o->latitude += o->theta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
+        if(o->latitude >= TAO) o->latitude -= TAO;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

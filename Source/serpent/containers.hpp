@@ -34,6 +34,12 @@ inline point3d<T> RotateZ(point3d<T> o, T theta)
     return point3d<T> { o.x*cos(theta) - o.y*sin(theta), o.x*sin(theta) + o.y*cos(theta), o.z};
 }
 
+template <typename T>
+inline point3d<T> Rotate(point3d<T> o, T x, T y, T z)
+{
+    return RotateZ(RotateY(RotateX(o, x) , y), z);
+}
+
 template<typename T> 
 point3d<T> sphericalToCartesian(const T theta, const T phi) 
 { 
