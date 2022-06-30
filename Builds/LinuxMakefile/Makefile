@@ -108,6 +108,7 @@ OBJECTS_STANDALONE_PLUGIN := \
   $(JUCE_OBJDIR)/include_juce_audio_plugin_client_Standalone_1a871192.o \
 
 OBJECTS_SHARED_CODE := \
+  $(JUCE_OBJDIR)/voice_fa01457f.o \
   $(JUCE_OBJDIR)/spawner_6a7d20b5.o \
   $(JUCE_OBJDIR)/serpent_201820a8.o \
   $(JUCE_OBJDIR)/preset_fbdd367c.o \
@@ -119,6 +120,7 @@ OBJECTS_SHARED_CODE := \
   $(JUCE_OBJDIR)/oscillator_30facfbd.o \
   $(JUCE_OBJDIR)/lfo_63799302.o \
   $(JUCE_OBJDIR)/envelopes_89d72270.o \
+  $(JUCE_OBJDIR)/ListSlider_790c9528.o \
   $(JUCE_OBJDIR)/Operator_8288712d.o \
   $(JUCE_OBJDIR)/fSlider_acccdde8.o \
   $(JUCE_OBJDIR)/InfSlider_b7e68483.o \
@@ -192,6 +194,11 @@ $(JUCE_OBJDIR)/include_juce_audio_plugin_client_Standalone_1a871192.o: ../../Juc
 	@echo "Compiling include_juce_audio_plugin_client_Standalone.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_STANDALONE_PLUGIN) $(JUCE_CFLAGS_STANDALONE_PLUGIN) -o "$@" -c "$<"
 
+$(JUCE_OBJDIR)/voice_fa01457f.o: ../../Source/serpent/voice.cpp
+	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling voice.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
+
 $(JUCE_OBJDIR)/spawner_6a7d20b5.o: ../../Source/serpent/spawner.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling spawner.cpp"
@@ -245,6 +252,11 @@ $(JUCE_OBJDIR)/lfo_63799302.o: ../../Source/serpent/lfo.cpp
 $(JUCE_OBJDIR)/envelopes_89d72270.o: ../../Source/serpent/envelopes.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling envelopes.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/ListSlider_790c9528.o: ../../Source/ListSlider.cpp
+	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling ListSlider.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Operator_8288712d.o: ../../Source/Operator.cpp

@@ -107,6 +107,23 @@ std::vector<float> imprint(oscillator*, int, int);
 
 inline void (*form[])(oscillator*) = 
 {    
+        // 3D //////////////
+        oSphere,        // 0
+        oCube,          // 1
+        oSaw3D,         // 2
+        oTSUCS,         // 3
+        oHelmholz,      // 4
+        oHalvorsen,     // 5
+        oSprottST,      // 6
+        oLinz,          // 7
+        oYuWang,        // 8
+        oRoessler,      // 9
+        oLorenz,        // 10
+        oChenLee,       // 11
+        // 2D ///////////////
+        oSine2D,        // 26
+        oSquare2D,      // 27
+        oKaplanYorke,   // 26
         // 1D //////////////
         oSine,          // 0
         oRamp,          // 1
@@ -123,23 +140,6 @@ inline void (*form[])(oscillator*) =
         oParabolic,     // 12
         oNoise,         // 13
         oAdditive,      // 14
-        // 3D ///////////////
-        oTSUCS,         // 15
-        oHelmholz,      // 16
-        oHalvorsen,     // 17
-        oSprottST,      // 18
-        oLinz,          // 19
-        oYuWang,        // 20
-        oRoessler,      // 21
-        oLorenz,        // 22
-        oChenLee,       // 23
-        oSphere,        // 24
-        oCube,          // 25
-        oSaw3D,         // 26
-        // 2D ///////////////
-        oSine2D,        // 26
-        oSquare2D,      // 27
-        oKaplanYorke,   // 26
         // LFOs /////////////
         lfoSine,        //
         lfoSaw,         //

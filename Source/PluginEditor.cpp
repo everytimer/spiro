@@ -28,6 +28,10 @@ GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : Aud
     wdVolume.setColour (juce::Slider::trackColourId, colour_set[0]);
     wdVolume.setColour (juce::Slider::backgroundColourId, colour_set[0]);
 
+form_operator_a.setColour (juce::Slider::trackColourId, colour_set[0]);
+form_operator_a.setColour (juce::Slider::backgroundColourId, colour_set[0]);
+
+
     addAndMakeVisible (wdVolume);
 
     addAndMakeVisible (operator_a);
@@ -41,14 +45,18 @@ GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : Aud
     addAndMakeVisible (spRotateY);
     addAndMakeVisible (spRotateZ);
 
+    addAndMakeVisible (form_operator_a);
 
     rWaveDisplay.setBounds (680, 240, 192,  96);
     rSpiroDisplay.setBounds(680,  42, 192, 192);
 
+    form_operator_a.textFromValueFunction = [](double value) { return wforms[uint(value)]; };
+    form_operator_a.onValueChange = [this] { audioProcessor.feed->renderer->vco[0].form = (uint)form_operator_a.getValue(); };
 
     operator_a.coarse.onValueChange = [this] { audioProcessor.feed->renderer->trigger(operator_a.coarse.getValue()); };
     operator_a.theta.onValueChange  = [this] { audioProcessor.feed->renderer->trigger2(operator_a.theta.getValue()); };
     operator_a.fm.onValueChange     = [this] { audioProcessor.feed->renderer->vco[0].pwm = operator_a.fm.getValue(); };
+    operator_a.warp.onValueChange   = [this] { audioProcessor.feed->renderer->vco[0].warp = operator_a.warp.getValue(); };
 
     spRotateX.onValueChange    = [this] { audioProcessor.feed->renderer->angle[0] = spRotateX.getValue(); };
     spRotateY.onValueChange    = [this] { audioProcessor.feed->renderer->angle[1] = spRotateY.getValue(); };
@@ -232,12 +240,14 @@ void GribAudioProcessorEditor::paint (juce::Graphics& g)
 
 void GribAudioProcessorEditor::resized()
 {
-    SC.setBounds        (   0, 180, 512, 192);
+    SC.setBounds        (   0, 200, 512, 192);
 
-    operator_a.setBounds(   0,  20, 96, 288);
-    operator_b.setBounds(  96,  20, 96, 288);
-    operator_c.setBounds( 192,  20, 96, 288);
-    operator_d.setBounds( 288,  20, 96, 288);
+form_operator_a.setBounds(  4,  18, 92, 18);
+
+    operator_a.setBounds(   0,  40, 96, 288);
+    operator_b.setBounds(  96,  40, 96, 288);
+    operator_c.setBounds( 192,  40, 96, 288);
+    operator_d.setBounds( 288,  40, 96, 288);
 
     wdVolume.setBounds  ( 680,  20, 192,  16);
 

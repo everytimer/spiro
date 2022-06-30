@@ -27,6 +27,8 @@
         <FILE id="CqAo92" name="sprite.hpp" compile="0" resource="0" file="Source/serpent/graph/sprite.hpp"/>
         <FILE id="jQbpMf" name="stb_image.h" compile="0" resource="0" file="Source/serpent/graph/stb_image.h"/>
       </GROUP>
+      <FILE id="GddAX4" name="voice.h" compile="0" resource="0" file="Source/serpent/voice.h"/>
+      <FILE id="xoIMHt" name="voice.cpp" compile="1" resource="0" file="Source/serpent/voice.cpp"/>
       <FILE id="Q6dUOz" name="wform_processor.hpp" compile="0" resource="0"
             file="Source/serpent/wform_processor.hpp"/>
       <FILE id="GwdYbP" name="spawner.h" compile="0" resource="0" file="Source/serpent/spawner.h"/>
@@ -73,6 +75,8 @@
       <GROUP id="{22DBE737-6B22-673F-F2EE-8E243637B1D5}" name="assets">
         <FILE id="D6zxdf" name="Knob_C01.png" compile="0" resource="1" file="Source/assets/Knob_C01.png"/>
       </GROUP>
+      <FILE id="dbDEkM" name="ListSlider.h" compile="0" resource="0" file="Source/ListSlider.h"/>
+      <FILE id="lgIrct" name="ListSlider.cpp" compile="1" resource="0" file="Source/ListSlider.cpp"/>
       <FILE id="WUeEll" name="Operator.h" compile="0" resource="0" file="Source/Operator.h"/>
       <FILE id="DHH2Bd" name="Operator.cpp" compile="1" resource="0" file="Source/Operator.cpp"/>
       <FILE id="GHBlNp" name="fSlider.h" compile="0" resource="0" file="Source/fSlider.h"/>

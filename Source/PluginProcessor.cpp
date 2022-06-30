@@ -77,8 +77,8 @@ void GribAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 	{
         out = feed->data->get(i, 0);
         wBuffer->set(out);
-		DataL[i] = out.x * 0.1000f;
-		DataR[i] = out.y * 0.1000f;
+		DataL[i] = out.x;
+		DataR[i] = out.y;
 	}
 }
 

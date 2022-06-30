@@ -10,6 +10,8 @@
 #include "Interface.h"
 #include "Socket.h"
 #include "Operator.h"
+#include "ListSlider.h"
+#include "lists.hpp"
 #include "serpent/spectrum.hpp"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juce::Timer//, public juce::MidiInputCallback
@@ -50,6 +52,7 @@ class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juc
         Operator operator_d;
 
         fSlider   wdVolume;
+        ListSlider form_operator_a;
               
         Sockets SC { 512, 192, 40 };
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GribAudioProcessorEditor)

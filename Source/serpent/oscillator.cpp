@@ -346,11 +346,13 @@ void cell::oSprottST(oscillator* o)
         if(o->phase >= PI) o->phase -= TAO;
 }
 
-void cell::oHelmholz(oscillator* o)//? Uncertainity
+void cell::oHelmholz(oscillator* o)
 {
         static helmholz d;
 
         d.t = o->delta/2.0f;
+        d.gamma = ((o->pwm-0.5f)*2.0f)  + 5.11f;
+        d.delta = ((o->warp-0.5f)*0.03f) + 0.55f;
         d.iterate();
         
         o->out.x = d.x * o->amplitude * 3.0f * o->am;
@@ -383,14 +385,16 @@ void cell::oTSUCS(oscillator* o)
         d.e = o->warp  / 8.0f + 0.55f;
         d.t = o->delta / 40.0f;
         d.iterate();
-        
 
-        o->out.x = d.x * o->amplitude * 0.1f * o->am;
-        o->out.y = d.y * o->amplitude * 0.1f * o->am;
-        o->out.z = d.z * o->amplitude * 0.1f * o->am;
+        o->out.x = (d.x) * o->amplitude * 0.1f * o->am;
+        o->out.y = (d.y) * o->amplitude * 0.1f * o->am;
+        o->out.z = (d.z-28.0f) * o->amplitude * 0.1f * o->am;
 
         o->phase += o->delta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
         if(o->phase >= PI) o->phase -= TAO;
+
+        // o->latitude += o->theta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
+        // if(o->latitude >= TAO) o->latitude -= TAO;
 }
 
 
