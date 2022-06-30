@@ -23,6 +23,6 @@ class Sockets: public juce::Component
         void mouseDown(const juce::MouseEvent&) override;
         void resized () override;
         void paint (juce::Graphics& g) override;
-        Sockets(int, int, int, int, int);
+        Sockets(int, int, int);
        ~Sockets();
 };

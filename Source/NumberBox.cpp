@@ -12,15 +12,7 @@ NumberBox::NumberBox()
     setDoubleClickReturnValue (true, 0.5f);
     setTextValueSuffix ("");
     setWantsKeyboardFocus (true);
-    // onValueChange = [&]()
-    // {
-    //     if (getValue() < 10)
-    //         setNumDecimalPlacesToDisplay(2);
-    //     else if (10 <= getValue() && getValue() < 100)
-    //         setNumDecimalPlacesToDisplay(1);
-    //     else
-    //         setNumDecimalPlacesToDisplay(0);
-    // };
+
 }
 
 NumberBox::~NumberBox(){}
@@ -32,7 +24,7 @@ void NumberBox::paint (juce::Graphics& g)
     auto w = bounds.getWidth();
     g.setColour (findColour (juce::Slider::textBoxOutlineColourId));
 
-    auto c = getValue();
+    auto c = (getValue()-getMinimum())/getRange().getLength();
     auto l = h / 8.0f;
 
     g.fillRect( w - w / 8.0f, 
@@ -40,31 +32,6 @@ void NumberBox::paint (juce::Graphics& g)
                 w, 
                 l
                 );
-
-
-    // if (hasKeyboardFocus (false))
-    // {
-
-        // auto len = juce::jmin (h, w) * 0.15f;
-        // auto thick  = len / 1.8f;
-
-
-        // Left top
-        // g.drawLine (0.0f, 0.0f, 0.0f, len, thick);
-        // g.drawLine (0.0f, 0.0f, len, 0.0f, thick);
-
-        // // Left bottom
-        // g.drawLine (0.0f, h, 0.0f, h - len, thick);
-        // g.drawLine (0.0f, h, len, h, thick);
-
-        // // Right top
-        // g.drawLine (w, 0.0f, w, len, thick);
-        // g.drawLine (w, 0.0f, w - len, 0.0f, thick);
-
-        // // Right bottom
-        // g.drawLine (w, h, w, h - len, thick);
-        // g.drawLine (w, h, w - len, h, thick);
-    // }
 }
 
 void NumberBox::mouseDown (const juce::MouseEvent& event)

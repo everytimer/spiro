@@ -13,57 +13,30 @@ GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : Aud
     setSize (WIDTH, HEIGHT);
     setWantsKeyboardFocus (true);
 
-    spRotateX.setColour (juce::Slider::trackColourId, cYellow);
-    spRotateX.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
+    spRotateX.setColour (juce::Slider::trackColourId, colour_set[0]);
+    spRotateX.setColour (juce::Slider::textBoxOutlineColourId, colour_set[0]);
     spRotateX.setRange  (0, M_PI * 2, 0);
 
-    spRotateY.setColour (juce::Slider::trackColourId, cYellow);
-    spRotateY.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
+    spRotateY.setColour (juce::Slider::trackColourId, colour_set[0]);
+    spRotateY.setColour (juce::Slider::textBoxOutlineColourId, colour_set[0]);
     spRotateY.setRange  (0, M_PI * 2, 0);
 
-    spRotateZ.setColour (juce::Slider::trackColourId, cYellow);
-    spRotateZ.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
+    spRotateZ.setColour (juce::Slider::trackColourId, colour_set[0]);
+    spRotateZ.setColour (juce::Slider::textBoxOutlineColourId, colour_set[0]);
     spRotateZ.setRange  (0, M_PI * 2, 0);
 
+    wdVolume.setColour (juce::Slider::trackColourId, colour_set[0]);
+    wdVolume.setColour (juce::Slider::backgroundColourId, colour_set[0]);
 
-    nbCoarse.setColour (juce::Slider::textBoxTextColourId, cBlue);
-    nbCoarse.setColour (juce::Slider::textBoxOutlineColourId, cBlue);
-    nbCoarse.setRange  (40, 8000, 0);
-    nbCoarse.setTextValueSuffix (" Hz");
-    nbCoarse.setNumDecimalPlacesToDisplay (0);
-
-    nbTheta.setColour (juce::Slider::textBoxTextColourId, cBlue);
-    nbTheta.setColour (juce::Slider::textBoxOutlineColourId, cBlue);
-    nbTheta.setRange  (0, 1, 0);
-    nbTheta.setTextValueSuffix ("");
-    nbTheta.setNumDecimalPlacesToDisplay (3);
-
-    wdVolume.setColour (juce::Slider::trackColourId, cYellow);
-    wdVolume.setColour (juce::Slider::backgroundColourId, cYellow);
-
-    nbPwm.setColour (juce::Slider::textBoxTextColourId, cGreen);
-    nbPwm.setColour (juce::Slider::textBoxOutlineColourId, cGreen);
-
-    nbDetune.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbDetune.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
-    nbWarp.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbWarp.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
-    nbAmp.setColour (juce::Slider::textBoxTextColourId, cYellow);
-    nbAmp.setColour (juce::Slider::textBoxOutlineColourId, cYellow);
-
-
-    addAndMakeVisible (nbCoarse);
-    addAndMakeVisible (nbTheta);
-    addAndMakeVisible (nbPwm);
-    addAndMakeVisible (nbDetune);
-    addAndMakeVisible (nbAmp);
-
-    // addAndMakeVisible (nbWarp);
     addAndMakeVisible (wdVolume);
 
-    // addAndMakeVisible (SC);
+    addAndMakeVisible (operator_a);
+    addAndMakeVisible (operator_b);
+    addAndMakeVisible (operator_c);
+    addAndMakeVisible (operator_d);
+
+    addAndMakeVisible (SC);
+
     addAndMakeVisible (spRotateX);
     addAndMakeVisible (spRotateY);
     addAndMakeVisible (spRotateZ);
@@ -72,19 +45,16 @@ GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : Aud
     rWaveDisplay.setBounds (680, 240, 192,  96);
     rSpiroDisplay.setBounds(680,  42, 192, 192);
 
-    nbCoarse.onValueChange     = [this] { audioProcessor.feed->renderer->trigger(nbCoarse.getValue()); };
-    nbTheta.onValueChange    = [this] { audioProcessor.feed->renderer->trigger2(nbTheta.getValue()); };
-    nbPwm.onValueChange    = [this] { audioProcessor.feed->renderer->vco[0].pwm = nbPwm.getValue(); };
 
-    // nbFM.onValueChange      = [this] { audioProcessor.osc2.frequency = nbFM.getValue(); audioProcessor.osc2.set_delta(); };
+    operator_a.coarse.onValueChange = [this] { audioProcessor.feed->renderer->trigger(operator_a.coarse.getValue()); };
+    operator_a.theta.onValueChange  = [this] { audioProcessor.feed->renderer->trigger2(operator_a.theta.getValue()); };
+    operator_a.fm.onValueChange     = [this] { audioProcessor.feed->renderer->vco[0].pwm = operator_a.fm.getValue(); };
+
     spRotateX.onValueChange    = [this] { audioProcessor.feed->renderer->angle[0] = spRotateX.getValue(); };
     spRotateY.onValueChange    = [this] { audioProcessor.feed->renderer->angle[1] = spRotateY.getValue(); };
     spRotateZ.onValueChange    = [this] { audioProcessor.feed->renderer->angle[2] = spRotateZ.getValue(); };
 
     wdVolume.onValueChange     = [this] { audioProcessor.feed->renderer->volume = wdVolume.getValue(); };
-    // nbDetune.onValueChange  = [this] { audioProcessor.osc.shift = nbDetune.getValue(); audioProcessor.osc.set_shift();};
-    // nbWarp.onValueChange    = [this] { audioProcessor.osc.warp = nbWarp.getValue(); };
-    // nbAmp.onValueChange     = [this] { audioProcessor.osc.amplitude = nbAmp.getValue(); };
 
 
     spCanvas = new cell::frame<float>(rSpiroDisplay.getWidth(), rSpiroDisplay.getHeight());
@@ -114,7 +84,7 @@ void GribAudioProcessorEditor::WaveDisplay(juce::Graphics& g, float scale)
     static auto layer = juce::Image (juce::Image::PixelFormat::ARGB, w, h, true);
     static juce::Image::BitmapData bmp(layer, juce::Image::BitmapData::ReadWriteMode::readWrite);
 
-    g.setColour(cYellow);
+    g.setColour(colour_set[0]);
     g.drawRect (rWaveDisplay);
 
     int yo, yc;
@@ -148,6 +118,58 @@ void GribAudioProcessorEditor::WaveDisplay(juce::Graphics& g, float scale)
     g.setOpacity (1.0f);
     g.drawImageAt(layer, rWaveDisplay.getX(), rWaveDisplay.getY());
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GribAudioProcessorEditor::SpectralDisplay(juce::Graphics& g, float scale)
+{
+    float h  = rWaveDisplay.getHeight();
+    int w  = rWaveDisplay.getWidth();
+    float cy = h / 2.0f;
+    float cx = w / 2.0f;
+
+    cell::spectre spectrum(w, 48000);
+    float* B = new float[w];
+    spectrum.in = B;
+
+    static auto layer = juce::Image (juce::Image::PixelFormat::ARGB, w, h, true);
+    static juce::Image::BitmapData bmp(layer, juce::Image::BitmapData::ReadWriteMode::readWrite);
+
+    g.setColour(colour_set[0]);
+    g.drawRect (rWaveDisplay);
+
+    int yo, yc;
+
+    for(int i = 0; i < w ; i++)
+    {
+        B[i] = audioProcessor.wBuffer->get().y;
+    }
+    spectrum.process();
+
+    yc = h*0.9-spectrum.out[0];
+    for(int i = 0; i < w ; i++)
+    {
+        yo = yc;
+        yc = h*0.9-spectrum.out[i] * scale;
+        DrawLineB(wdCanvas, i, yo, i, yc, 1.0f);
+    }
+    cell::boxBlur(wdCanvas);
+
+    for(int y = 0; y < h; y++)
+    {
+        for(int x = 0; x < w; x++)
+        {
+            float c = wdCanvas->get(x, y);
+            bmp.setPixelColour (x, y, juce::Colour::fromFloatRGBA (1.09f, 0.71f*c*2, 0.20f, c));
+            wdCanvas->set(x, y, wdCanvas->get(x, y) * 0.9f);
+        }
+    }
+        
+    g.setOpacity (1.0f);
+    g.drawImageAt(layer, rWaveDisplay.getX(), rWaveDisplay.getY());
+    delete B;
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -165,7 +187,7 @@ void GribAudioProcessorEditor::SpiroDisplay(juce::Graphics& g, float scale, int 
     static auto layer = juce::Image (juce::Image::PixelFormat::ARGB, w, h, true);
     static juce::Image::BitmapData bmp(layer, juce::Image::BitmapData::ReadWriteMode::readWrite);
 
-    g.setColour(cYellow);
+    g.setColour(colour_set[0]);
     g.drawRect (rSpiroDisplay);
     juce::Rectangle<float> pointArea (3, 3);
     juce::Point<float> position;
@@ -200,39 +222,28 @@ void GribAudioProcessorEditor::SpiroDisplay(juce::Graphics& g, float scale, int 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GribAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll   (cAsphaltGrey);
-    g.setColour (cFastBlack);
-    g.drawRect  (0, 0, WIDTH, HEIGHT);
-    WaveDisplay (g, 80.0f);
-    SpiroDisplay(g, 500.0f);
+    g.fillAll       (cAsphaltGrey);
+    g.setColour     (cFastBlack);
+    g.drawRect      (0, 0, WIDTH, HEIGHT);
+    // WaveDisplay (g, 80.0f);
+    SpectralDisplay (g,   1.0f);
+    SpiroDisplay    (g, 500.0f);
 }
 
 void GribAudioProcessorEditor::resized()
 {
-    // SC.setBounds       ( 220, 180, 300, 200);
+    SC.setBounds        (   0, 180, 512, 192);
 
-    nbCoarse.setBounds (  20,  20,  60,  20);
-    nbTheta.setBounds  (  20,  45,  60,  20);
-    nbPwm.setBounds    (  20,  70,  60,  20);
-    nbDetune.setBounds (  20,  95,  60,  20);
-    nbAmp.setBounds    (  20, 120,  60,  20);
+    operator_a.setBounds(   0,  20, 96, 288);
+    operator_b.setBounds(  96,  20, 96, 288);
+    operator_c.setBounds( 192,  20, 96, 288);
+    operator_d.setBounds( 288,  20, 96, 288);
 
-    nbWarp.setBounds   (  20, 120,  60,  20);
+    wdVolume.setBounds  ( 680,  20, 192,  16);
 
-    wdVolume.setBounds ( 680,  20, 192,  16);
-
-
-    spRotateX.setBounds (660,  42 , 15,  60);
-    // spRotateX.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    // spRotateX.setSliderStyle(juce::Slider::SliderStyle::LinearBar );
-
-    spRotateY.setBounds (660, 108,  15,  60);
-    // spRotateY.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    // spRotateY.setSliderStyle(juce::Slider::SliderStyle::LinearBar );
-
-    spRotateZ.setBounds (660, 174,  15,  60);
-    // spRotateZ.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    // spRotateZ.setSliderStyle(juce::Slider::SliderStyle::LinearBar );
+    spRotateX.setBounds ( 660,  42 , 15,  60);
+    spRotateY.setBounds ( 660, 108,  15,  60);
+    spRotateZ.setBounds ( 660, 174,  15,  60);
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

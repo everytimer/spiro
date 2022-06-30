@@ -119,6 +119,7 @@ OBJECTS_SHARED_CODE := \
   $(JUCE_OBJDIR)/oscillator_30facfbd.o \
   $(JUCE_OBJDIR)/lfo_63799302.o \
   $(JUCE_OBJDIR)/envelopes_89d72270.o \
+  $(JUCE_OBJDIR)/Operator_8288712d.o \
   $(JUCE_OBJDIR)/fSlider_acccdde8.o \
   $(JUCE_OBJDIR)/InfSlider_b7e68483.o \
   $(JUCE_OBJDIR)/Socket_2b3a4d7c.o \
@@ -244,6 +245,11 @@ $(JUCE_OBJDIR)/lfo_63799302.o: ../../Source/serpent/lfo.cpp
 $(JUCE_OBJDIR)/envelopes_89d72270.o: ../../Source/serpent/envelopes.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling envelopes.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/Operator_8288712d.o: ../../Source/Operator.cpp
+	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling Operator.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/fSlider_acccdde8.o: ../../Source/fSlider.cpp

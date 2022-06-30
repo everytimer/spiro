@@ -11,7 +11,7 @@ void cell::spawner::spawn()
 {
     for(int i = 0; i < settings->buffer_size; i++)
     {
-        form[24](&vco[0]);
+        form[26](&vco[0]);
         auto o = Rotate(vco[0].out, angle[0], angle[1], angle[2]);
         o.x *= volume;
         o.y *= volume;

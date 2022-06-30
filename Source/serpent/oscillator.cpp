@@ -487,30 +487,25 @@ void cell::oSphere(oscillator* o)
 void cell::oCube(oscillator* o)
 {       
         float pw = (o->pwm * 1.9f + 0.05f) * PI;
-        float ax = 0, bx = 0;
-        float ay = 0, by = 0;
-        float az = 0, bz = 0;
+        float ax(0.0f), bx(0.0f);
+        float ay(0.0f), by(0.0f);
+        float az(0.0f), bz(0.0f);
         for(int i = 1; i <= o->nharm; i++)
         {
-                // float  S = sinf(o->phase + o->pm);
-                // o->out.x = cosf(o->latitude + o->pm) * S * o->amplitude * o->am;
-                // o->out.y = sinf(o->latitude + o->pm) * S * o->amplitude * o->am;
-                // o->out.z = cosf(o->phase + o->pm) * o->amplitude * o->am;
-
                 float  So = sinf(o->phase * i);
                 float  Sp = sinf((o->phase + pw) * i);
-                
-                ax += cosf( o->latitude * i)       * So / i;
-                bx += cosf((o->latitude + pw) * i) * Sp / i;
+                float  I  = i * i;
+                ax += cosf( o->latitude * i)       * So / I;
+                bx += cosf((o->latitude + pw) * i) * Sp / I;
 
-                ay += sinf( o->latitude * i)       * So / i;
-                by += sinf((o->latitude + pw) * i) * Sp / i;
+                ay += sinf( o->latitude * i)       * So / I;
+                by += sinf((o->latitude + pw) * i) * Sp / I;
 
                 az += cosf( o->phase * i) / i;
                 bz += cosf((o->phase + pw) * i) / i;
         }
-        o->out.y = (ax - bx) * o->amplitude * o->am;
-        o->out.x = (ay - by) * o->amplitude * o->am;
+        o->out.y = (ay - by) * o->amplitude * o->am;
+        o->out.x = (ax - bx) * o->amplitude * o->am;
         o->out.z = (az - bz) * o->amplitude * o->am;
 
         o->phase += o->delta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
@@ -519,6 +514,29 @@ void cell::oCube(oscillator* o)
         o->latitude += o->theta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
         if(o->latitude >= TAO) o->latitude -= TAO;
 }
+
+void cell::oSaw3D(oscillator* o) 
+{
+        o->out.x = 0.0f;
+        o->out.y = 0.0f;
+        o->out.z = 0.0f;
+        for(int i = 1; i <= o->nharm; i++)
+        {
+                float  S = sinf(o->phase * i + o->pwm * PI);
+                float  I  = i * i;
+                o->out.x += cosf(o->latitude * i + o->pwm * PI) * S / I;
+                o->out.y += sinf(o->latitude * i + o->pwm * PI) * S / I;
+                o->out.z += cosf(o->phase * i + o->pwm * PI) / i;
+        }
+        o->out.x *= o->amplitude * o->am;
+        o->out.y *= o->amplitude * o->am;
+        o->out.z *= o->amplitude * o->am;
+        o->phase += o->delta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
+        if(o->phase >= TAO) o->phase -= TAO;
+        o->latitude += o->theta + o->fm + (o->shift - 0.5f) * o->range * 2.0f;
+        if(o->latitude >= TAO) o->latitude -= TAO;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // 2D //////////////////////////////////////////////////////////////////////////////////

@@ -84,6 +84,7 @@ void oLorenz(oscillator*);
 void oChenLee(oscillator*);
 void oSphere(oscillator*);
 void oCube(oscillator*);
+void oSaw3D(oscillator*);
 
 /////////////////////////////////////////////////
 // 2D ///////////////////////////////////////////
@@ -134,7 +135,7 @@ inline void (*form[])(oscillator*) =
         oChenLee,       // 23
         oSphere,        // 24
         oCube,          // 25
-
+        oSaw3D,         // 26
         // 2D ///////////////
         oSine2D,        // 26
         oSquare2D,      // 27

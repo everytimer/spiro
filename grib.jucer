@@ -73,6 +73,8 @@
       <GROUP id="{22DBE737-6B22-673F-F2EE-8E243637B1D5}" name="assets">
         <FILE id="D6zxdf" name="Knob_C01.png" compile="0" resource="1" file="Source/assets/Knob_C01.png"/>
       </GROUP>
+      <FILE id="WUeEll" name="Operator.h" compile="0" resource="0" file="Source/Operator.h"/>
+      <FILE id="DHH2Bd" name="Operator.cpp" compile="1" resource="0" file="Source/Operator.cpp"/>
       <FILE id="GHBlNp" name="fSlider.h" compile="0" resource="0" file="Source/fSlider.h"/>
       <FILE id="NvtCqt" name="fSlider.cpp" compile="1" resource="0" file="Source/fSlider.cpp"/>
       <FILE id="Bvd3mz" name="InfSlider.h" compile="0" resource="0" file="Source/InfSlider.h"/>
