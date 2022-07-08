@@ -11,8 +11,15 @@ void cell::spawner::spawn()
 {
     for(int i = 0; i < settings->buffer_size; i++)
     {
-        form[vco[0].form](&vco[0]);
-        auto o = Rotate(vco[0].out, angle[0], angle[1], angle[2]);
+
+        form[0](&v[0].vco[0]);
+        form[0](&v[0].vco[1]);
+        form[0](&v[0].vco[2]);
+        *v[0].vco[0].fm = v[0].vco[2].out.y*0.01;
+        // point3d<float> C { v[0].vco[0].out.y, v[0].vco[1].out.y, v[0].vco[2].out.y };
+        point3d<float>  C = sphericalToCartesian(v[0].vco[0].out.y, v[0].vco[1].out.y);
+        auto o = Rotate(C, angle[0], angle[1], angle[2]);
+        // auto o = v[0].vco[1].out;
         o.x *= volume;
         o.y *= volume;
         o.z *= volume;
@@ -26,33 +33,34 @@ void cell::spawner::iterate()
 }
 
 
-void cell::spawner::trigger(float Hz)
+void cell::spawner::trigger(int o, float Hz)
 {
-    vco[0].frequency = Hz;
-    vco[0].reset();
+    v[0].vco[o].frequency = Hz;
+    v[0].vco[o].reset();
 }
 
-void cell::spawner::trigger2(float Hz)
-{
-    vco[0].theta = Hz;
-}
+
 
 void cell::spawner::init()
 {
-    vco = new oscillator[oscn];
-    for(int i = 0; i < oscn; i++)
+    v   = new voice[poly];
+    cvs = new frame<float>(v->oscn, 6);
+    cvs->clr(0.0f);
+    for(int i = 0; i < poly; i++) 
     {
-        vco[i].settings = settings;
-        vco[i].reset();
+        v[i].settings = settings;
+        v[i].cvs = cvs;
+        v[i].init();
     }
 }
 
 void cell::spawner::free()
 {
-    delete vco;
+    delete cvs;
+    delete[] v;
 }
 
-cell::spawner::spawner(frame<point3d<float>>* buffer, iospecs* io): data(buffer), settings(io)
+cell::spawner::spawner(frame<point3d<float>>* buffer, iospecs* io, const int p = 8): data(buffer), settings(io), poly(p)
 {
     init();
 }

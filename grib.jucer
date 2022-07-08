@@ -75,6 +75,10 @@
       <GROUP id="{22DBE737-6B22-673F-F2EE-8E243637B1D5}" name="assets">
         <FILE id="D6zxdf" name="Knob_C01.png" compile="0" resource="1" file="Source/assets/Knob_C01.png"/>
       </GROUP>
+      <FILE id="tK72RT" name="EnvelopeDisplay.cpp" compile="1" resource="0"
+            file="Source/EnvelopeDisplay.cpp"/>
+      <FILE id="Xi4ni8" name="EnvelopeDisplay.h" compile="0" resource="0"
+            file="Source/EnvelopeDisplay.h"/>
       <FILE id="dbDEkM" name="ListSlider.h" compile="0" resource="0" file="Source/ListSlider.h"/>
       <FILE id="lgIrct" name="ListSlider.cpp" compile="1" resource="0" file="Source/ListSlider.cpp"/>
       <FILE id="WUeEll" name="Operator.h" compile="0" resource="0" file="Source/Operator.h"/>
@@ -86,8 +90,9 @@
       <FILE id="rmtpvK" name="Socket.h" compile="0" resource="0" file="Source/Socket.h"/>
       <FILE id="JvQfIq" name="Socket.cpp" compile="1" resource="0" file="Source/Socket.cpp"/>
       <FILE id="tvFU9m" name="Colours.hpp" compile="0" resource="0" file="Source/Colours.hpp"/>
-      <FILE id="a6CqyS" name="Interface.cpp" compile="1" resource="0" file="Source/Interface.cpp"/>
-      <FILE id="DsdWb3" name="Interface.h" compile="0" resource="0" file="Source/Interface.h"/>
+      <FILE id="a6CqyS" name="SpriteSlider.cpp" compile="1" resource="0"
+            file="Source/SpriteSlider.cpp"/>
+      <FILE id="DsdWb3" name="SpriteSlider.h" compile="0" resource="0" file="Source/SpriteSlider.h"/>
       <FILE id="UvF0Hu" name="NumberBox.cpp" compile="1" resource="0" file="Source/NumberBox.cpp"/>
       <FILE id="gr8U1D" name="NumberBox.h" compile="0" resource="0" file="Source/NumberBox.h"/>
       <FILE id="iePAVG" name="PluginProcessor.cpp" compile="1" resource="0"

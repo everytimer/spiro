@@ -19,28 +19,26 @@ namespace cell {
 class oscillator
 {
     public: 
-        envelope* env = nullptr;
-        iospecs*  settings  = nullptr;
+        envelope env;
+        iospecs*  settings = nullptr;
         sequence<float>* o = nullptr; // Harmonics table
         sequence<float>* w = nullptr; // Wave table
         int     nharm = 16;           // Number of harmonics
         float   phase = 0.0f;         // Current phase
         float   delta = 0.0f;         // Phase increment
         float   theta = 0.0f;         // Latitude increment
-        float   latitude = 0.0f;
+        float   latitude  = 0.0f;     // Lateral phase
         float   frequency = 440.0;    // Frequency in Hz
-        float   amplitude = 0.2f;     // Overall amplitude
+        float*  amplitude;            // Overall amplitude
         float   eax, ebx, ecx;        // Feedback memory
-        float   fm = 0.0f;            // Frequency modulation
-        float   pm = 0.0f;            // Phase modulation
-        float   am = 1.0f;            // Amplitude modulation
-        float   pwm   = 0.5f;         // Pulse width modulation: 0 < 1 
+        float*  fm;                   // Frequency modulation
+        float*  am;                   // Amplitude modulation
+        float*  pw;                   // Pulse width centre
+        float*  pwm;                  // Pulse width modulation: 0 < 1 
         float   warp  = 0.5f;         // Form dependent modulation: 0 < 1
         float   shift = 0.5f;         // Pitch bend: 0 < 1 
         float   range = 0.0f;         // Pitch shift range
-        bool    on = false;           // On / Off flag
-        bool    sync = false;         // Reset phase on attack
-        int     form = 0;             // Form function id
+        float*  form;
         point3d<float> out;           // Output: x, y, z
         void    retrigger();
         void    set_delta(const float);
@@ -51,6 +49,9 @@ class oscillator
         oscillator(iospecs*);
         oscillator();
 }; 
+/////////////////////////////////////////////////
+// Rotors ///////////////////////////////////////
+void oRotor(oscillator*);
 
 
 /////////////////////////////////////////////////
@@ -107,6 +108,8 @@ std::vector<float> imprint(oscillator*, int, int);
 
 inline void (*form[])(oscillator*) = 
 {    
+        oRotor,
+        oSine,   
         // 3D //////////////
         oSphere,        // 0
         oCube,          // 1
@@ -141,7 +144,7 @@ inline void (*form[])(oscillator*) =
         oNoise,         // 13
         oAdditive,      // 14
         // LFOs /////////////
-        lfoSine,        //
+        //lfoSine,        //
         lfoSaw,         //
         lfoMorphTri,    //
         lfoTriangle,    //

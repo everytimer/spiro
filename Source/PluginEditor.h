@@ -7,12 +7,15 @@
 #include "NumberBox.h"
 #include "InfSlider.h"
 #include "fSlider.h"
-#include "Interface.h"
+#include "SpriteSlider.h"
 #include "Socket.h"
 #include "Operator.h"
+#include "EnvelopeDisplay.h"
 #include "ListSlider.h"
-#include "lists.hpp"
 #include "serpent/spectrum.hpp"
+#include "serpent/blur.hpp"
+#include "serpent/primitives.hpp"
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juce::Timer//, public juce::MidiInputCallback
 {
@@ -25,6 +28,9 @@ class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juc
         void WaveDisplay (juce::Graphics&, float);
         void SpectralDisplay (juce::Graphics&, float);
         void SpiroDisplay(juce::Graphics&, float, int);
+
+        EnvelopeDisplay eds;
+        
         cell::frame<float>* spCanvas;
         cell::frame<float>* wdCanvas;
 
@@ -39,7 +45,6 @@ class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juc
        ~GribAudioProcessorEditor() override;
 
     private:
-        Interface interface;
 
         GribAudioProcessor& audioProcessor;
         InfSlider spRotateX;
@@ -52,9 +57,10 @@ class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juc
         Operator operator_d;
 
         fSlider   wdVolume;
-        ListSlider form_operator_a;
               
         Sockets SC { 512, 192, 40 };
+        // SpriteSlider SS;
+
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GribAudioProcessorEditor)
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

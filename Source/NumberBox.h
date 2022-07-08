@@ -9,9 +9,14 @@ class NumberBox  : public juce::Slider
         float eax;
         float range;
         float centre;
+        // juce::Colour normalColour;
+        // juce::Colour hoveredColour;
+
         void paint (juce::Graphics& g) override;
         void mouseDown (const juce::MouseEvent& event) override;
         void mouseUp (const juce::MouseEvent& event) override;
+        // void mouseEnter (const juce::MouseEvent& event) override;
+        // void mouseExit (const juce::MouseEvent& event) override;
         NumberBox();
        ~NumberBox();
 };

@@ -1,55 +1,41 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 // ENVELOPES
-// V.0.3.6 2022-02-19
+// V.0.3.7 2022-07-07
 ////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
-
-
 
 #include <cstdlib>
 #include <cmath>
 #include <vector>
 #include <iostream>
-
 using std::vector;
 
 
 namespace cell{
     
-typedef struct
+struct breakpoint
 {
-    float  time;
-    float value;
-} BREAKPOINT;
+    enum  type  { LIN, LOG, CUB, SFT };
+    uint  time  = 0;
+    float value = 0.0f;
+    type  curve = SFT;
+};
 
-typedef struct
-{
-    BREAKPOINT A;
-    BREAKPOINT D;
-    BREAKPOINT S;
-    BREAKPOINT R;
-} ADSR;
 
 class envelope
 {
     private:
+        float  value = 0.0f;  // Starting value
+        float  delta = 0.0f;  // Change in values
+        float  floor = 0.0f;
     public:
-        enum   STAGE {OFF, A, D, S, R};
-        enum   TYPE  {LIN, LOG, CUB, SFT};
-        STAGE  state = OFF;
-        ADSR   adsr;
-        TYPE   curve = CUB;
-        uint   departed;      // Current sample
-        uint   breakpoint;    // Samples before next stage
-        int    form[4];       // Function for given segment
-        float  sample_rate;   // System sample rate
-        float  e;             // Multiplier
-        float  level;         // Previous - Next
-        float  scale;         // Overall time multiplier
-        float  min;           // Floor
-        float  out;           // Current output
-        float  coefficient(float, float, uint);
-        float  process();
+        breakpoint* node;
+        uint   departed;        // Current sample
+        float  scale;           // Overall time multiplier
+        float  threshold = 0.0f;// Floor
+        float  feed;            // Current output
+        int    segments = 6;    // Number of stages
+        int    stage = 0;       // Current stage
         void   start();          
         void   next_stage();
         void   init();
@@ -59,26 +45,19 @@ class envelope
 };
 
 
-float fLinear(float, float, float, float);
-float fCubicIn(float, float, float, float);
+float fLinear  (float, float, float, float);
+float fCubicIn (float, float, float, float);
 float fCubicOut(float, float, float, float);
-float fCubicIO(float, float, float, float);
+float fCubicIO (float, float, float, float);
 
-inline float (*fCUBe[])(float, float, float, float) = 
+inline float (*formEnvelope[])(float, float, float, float) = 
                                                     { 
                                                         fLinear,
                                                         fCubicOut,
                                                         fCubicIn,
                                                         fCubicIO
-                                                    
                                                     };
-float fO(envelope*);
-float fAttack(envelope*);
-float fDecay(envelope*);
-float fSustain(envelope*);
-float fRelCUBe(envelope*);
 
-inline float (*fEnv[])(envelope* o) = {fO, fAttack, fDecay, fSustain, fRelCUBe};
 
 vector<float> imprint(envelope*, int, int);
 

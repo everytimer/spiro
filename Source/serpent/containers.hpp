@@ -88,6 +88,7 @@ class frame
         const unsigned height;             
         void set(unsigned, unsigned, T);
         T    get(unsigned, unsigned) const;
+        T*   ref(unsigned, unsigned);
         T*   ref() const { return data; }
         void clr(T);
         frame(unsigned, unsigned);
@@ -107,6 +108,13 @@ inline T frame<T>::get(unsigned x, unsigned y) const
 {
     if(((x >= 0) && (x < width)) && ((y >= 0) && (y < height))) return data[x + y * width];
     return data[0];
+}
+
+template <typename T>
+inline T* frame<T>::ref(unsigned x, unsigned y)
+{
+    if(((x >= 0) && (x < width)) && ((y >= 0) && (y < height))) return &data[x + y * width];
+    return &data[0];
 }
 
 template <typename T>

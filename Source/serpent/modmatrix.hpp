@@ -12,14 +12,13 @@ namespace cell {
 
 //////////////////////////////////////////////////////////////////////////////////
 // PatchCord /////////////////////////////////////////////////////////////////////
-
 struct patchcord
 {
-        point2d<float>* data;
-        point2d<float>  spline[4];
-        const int   segments = 4;
-        const int   iterations;
-        void process();         // Fill spline data
+        point2d<float>* data;       // Rendered spline
+        point2d<float>  spline[4];  // Control points
+        const int   segments = 4;   // # Segments
+        const int   iterations;     // Precision
+        void process();             // Fill spline data
         patchcord(int);
        ~patchcord();
 };
@@ -32,13 +31,13 @@ class socket
     public:
         square<uint> bounds {0, 0, 0};
         patchcord cord;
-        uint    id    = 0;
-        bool    route = 0;             // 0: Out - 1: In
-        bool    on = false;         // Is connected ?
+        uint    id    = 0;              // Identifier
+        bool    route = 0;              // 0: Out - 1: In
+        bool    on = false;             // Is connected ?
         socket* to = nullptr;
         const uint* w;
         const uint* h;
-        void collapse();            // Collapse to centre
+        void collapse();                // Collapse to centre
         void drag(const float, const float);    // Drag
         socket(int);  // cord(j) {}
        ~socket();
@@ -55,7 +54,7 @@ class patchbay
         socket* dst = nullptr;
         const int nodes;              // Number of sockets
         void draw();
-        bool down_test(float, float);
+        int  down_test(float, float);
         bool up_test(float, float);
         void set_socket(int, int, int, uint, uint, bool);
         void drag(float x, float y);
@@ -64,6 +63,27 @@ class patchbay
         patchbay(int, int, int);
        ~patchbay();
 };
+
+//////////////////////////////////////////////////////////////////////////////////
+// Modmatrix /////////////////////////////////////////////////////////////////////
+// class modmatrix
+// {
+//     private:
+//     public:
+//         frame<float> data;
+//         modmatrix(uint, uint);
+//        ~modmatrix();
+// };
+
+// modmatrix::modmatrix(uint ins, uint outs): data(ins, outs)
+// {
+// }
+
+// modmatrix::~modmatrix()
+// {
+// }
+
+
 
 };
 //////////////////////////////////////////////////////////////////////////////////

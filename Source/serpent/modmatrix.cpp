@@ -76,7 +76,7 @@ void socket::drag(const float x, const float y)
 
 socket::socket(int n = 32): cord(n)
 {
-
+    collapse();
 }
 
 socket::~socket() 
@@ -112,13 +112,13 @@ void patchbay::draw()
     }
 }
 
-bool patchbay::down_test(float x, float y)
+int patchbay::down_test(float x, float y)
 {
     auto stamp = canvas.get(x, y); 
 
     for(int i = 0; i < nodes; i++)
     {
-        if(stamp == io[i].id) // Socket is hitted
+        if((stamp == io[i].id) && stamp) // Socket is hitted
         {
             std::cout<<"156:Button down on socket: "<<std::hex<<io[i].id<<"\n";
             // Temporary source is free /////////////////////////////////////
@@ -130,14 +130,15 @@ bool patchbay::down_test(float x, float y)
                 io[i].collapse();
                 std::cout<<"164:Button is down - already connected!\n";
                 disconnect(&io[i], io[i].to);
-                return true;
+                // src = nullptr;
+                return src->route? 1 : -1;
             }
             else
             {
                 src = &io[i];
                 std::cout<<"171:New source armed!\n";
                 src->collapse();
-                return true;
+                return src->route? 1 : -1;
             }
         }
     }
@@ -148,7 +149,7 @@ bool patchbay::down_test(float x, float y)
         src->collapse();
     }
     src = nullptr;
-    return false;
+    return 0;
 }
 
 
@@ -159,7 +160,7 @@ bool patchbay::up_test(float x, float y)
 
     for(int i = 0; i < nodes; i++)
     {
-        if(stamp == io[i].id) // Socket is hitted
+        if((stamp == io[i].id) && stamp) // Socket is hitted
         {
             std::cout<<"197:Button up at socket: "<<std::hex<<io[i].id<<"\n";
             if(src == &io[i]) // Same socket is hitted
@@ -204,6 +205,7 @@ bool patchbay::up_test(float x, float y)
                             src = nullptr;
                             return true;
                         }
+                        src = nullptr;
                         return false;
                     }
                     else
@@ -217,6 +219,7 @@ bool patchbay::up_test(float x, float y)
                             src = nullptr;
                             return true;
                         }
+                        src = nullptr;
                         return false;
                     }
                 }

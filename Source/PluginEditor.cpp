@@ -2,13 +2,12 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "Interface.h"
-#include "serpent/blur.hpp"
-#include "serpent/primitives.hpp"
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : AudioProcessorEditor (&p), audioProcessor (p)
 {
+    juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("B612");
     setResizable(false, false);
     setSize (WIDTH, HEIGHT);
     setWantsKeyboardFocus (true);
@@ -25,38 +24,52 @@ GribAudioProcessorEditor::GribAudioProcessorEditor (GribAudioProcessor& p) : Aud
     spRotateZ.setColour (juce::Slider::textBoxOutlineColourId, colour_set[0]);
     spRotateZ.setRange  (0, M_PI * 2, 0);
 
-    wdVolume.setColour (juce::Slider::trackColourId, colour_set[0]);
-    wdVolume.setColour (juce::Slider::backgroundColourId, colour_set[0]);
-
-form_operator_a.setColour (juce::Slider::trackColourId, colour_set[0]);
-form_operator_a.setColour (juce::Slider::backgroundColourId, colour_set[0]);
+    wdVolume.setColour  (juce::Slider::trackColourId, colour_set[0]);
+    wdVolume.setColour  (juce::Slider::backgroundColourId, colour_set[0]);
 
 
     addAndMakeVisible (wdVolume);
-
     addAndMakeVisible (operator_a);
     addAndMakeVisible (operator_b);
     addAndMakeVisible (operator_c);
     addAndMakeVisible (operator_d);
 
+    addAndMakeVisible (eds);
+
     addAndMakeVisible (SC);
+    // addAndMakeVisible (SS);
 
     addAndMakeVisible (spRotateX);
     addAndMakeVisible (spRotateY);
     addAndMakeVisible (spRotateZ);
 
-    addAndMakeVisible (form_operator_a);
-
     rWaveDisplay.setBounds (680, 240, 192,  96);
     rSpiroDisplay.setBounds(680,  42, 192, 192);
 
-    form_operator_a.textFromValueFunction = [](double value) { return wforms[uint(value)]; };
-    form_operator_a.onValueChange = [this] { audioProcessor.feed->renderer->vco[0].form = (uint)form_operator_a.getValue(); };
 
-    operator_a.coarse.onValueChange = [this] { audioProcessor.feed->renderer->trigger(operator_a.coarse.getValue()); };
-    operator_a.theta.onValueChange  = [this] { audioProcessor.feed->renderer->trigger2(operator_a.theta.getValue()); };
-    operator_a.fm.onValueChange     = [this] { audioProcessor.feed->renderer->vco[0].pwm = operator_a.fm.getValue(); };
-    operator_a.warp.onValueChange   = [this] { audioProcessor.feed->renderer->vco[0].warp = operator_a.warp.getValue(); };
+    operator_a.coarse.onValueChange = [this] { audioProcessor.feed->renderer->v[0].vco[0].set_delta(operator_a.coarse.getValue());};
+    operator_a.theta.onValueChange  = [this] { audioProcessor.feed->renderer->cvs->set(0, 0, operator_a.theta.getValue()); };
+    operator_a.fm.onValueChange     = [this] { audioProcessor.feed->renderer->cvs->set(0, 1, operator_a.fm.getValue()); };
+    operator_a.warp.onValueChange   = [this] { audioProcessor.feed->renderer->cvs->set(0, 2, operator_a.warp.getValue()); };
+    operator_a.amp.onValueChange    = [this] { audioProcessor.feed->renderer->cvs->set(0, 3, operator_a.amp.getValue()); };
+    // form_operator_a.onValueChange   = [this] { audioProcessor.feed->renderer->cvs->set(0, 4, form_operator_a.getValue()); };
+
+
+    operator_b.coarse.onValueChange = [this] { audioProcessor.feed->renderer->v[0].vco[1].set_delta(operator_b.coarse.getValue());};
+    operator_b.theta.onValueChange  = [this] { audioProcessor.feed->renderer->cvs->set(1, 0, operator_b.theta.getValue()); };
+    operator_b.fm.onValueChange     = [this] { audioProcessor.feed->renderer->cvs->set(1, 1, operator_b.fm.getValue()); };
+    operator_b.warp.onValueChange   = [this] { audioProcessor.feed->renderer->cvs->set(1, 2, operator_b.warp.getValue()); };
+    operator_b.amp.onValueChange    = [this] { audioProcessor.feed->renderer->cvs->set(1, 3, operator_b.amp.getValue()); };
+    // form_operator_b.onValueChange   = [this] { audioProcessor.feed->renderer->cvs->set(1, 4, form_operator_b.getValue()); };
+
+    operator_c.coarse.onValueChange = [this] { audioProcessor.feed->renderer->v[0].vco[2].set_delta(operator_c.coarse.getValue()); };
+    operator_c.theta.onValueChange  = [this] { audioProcessor.feed->renderer->cvs->set(2, 0, operator_c.theta.getValue()); };
+    operator_c.fm.onValueChange     = [this] { audioProcessor.feed->renderer->cvs->set(2, 1, operator_c.fm.getValue()); };
+    operator_c.warp.onValueChange   = [this] { audioProcessor.feed->renderer->cvs->set(2, 2, operator_c.warp.getValue()); };
+    operator_c.amp.onValueChange    = [this] { audioProcessor.feed->renderer->cvs->set(2, 3, operator_c.amp.getValue()); };
+    // form_operator_c.onValueChange   = [this] { audioProcessor.feed->renderer->cvs->set(2, 4, form_operator_c.getValue()); };
+
+
 
     spRotateX.onValueChange    = [this] { audioProcessor.feed->renderer->angle[0] = spRotateX.getValue(); };
     spRotateY.onValueChange    = [this] { audioProcessor.feed->renderer->angle[1] = spRotateY.getValue(); };
@@ -109,7 +122,7 @@ void GribAudioProcessorEditor::WaveDisplay(juce::Graphics& g, float scale)
     {
         yo = yc;
         yc = audioProcessor.wBuffer->get().y * scale + cy;
-        DrawLineB(wdCanvas, i, yo, i, yc, 1.0f);
+        // DrawLineB(wdCanvas, i, yo, i, yc, 1.0f);
     }
     cell::boxBlur(wdCanvas);
 
@@ -160,7 +173,7 @@ void GribAudioProcessorEditor::SpectralDisplay(juce::Graphics& g, float scale)
     {
         yo = yc;
         yc = h*0.9-spectrum.out[i] * scale;
-        DrawLineB(wdCanvas, i, yo, i, yc, 1.0f);
+        // DrawLineB(wdCanvas, i, yo, i, yc, 1.0f);
     }
     cell::boxBlur(wdCanvas);
 
@@ -178,6 +191,7 @@ void GribAudioProcessorEditor::SpectralDisplay(juce::Graphics& g, float scale)
     g.drawImageAt(layer, rWaveDisplay.getX(), rWaveDisplay.getY());
     delete B;
 }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -230,9 +244,9 @@ void GribAudioProcessorEditor::SpiroDisplay(juce::Graphics& g, float scale, int 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GribAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll       (cAsphaltGrey);
-    g.setColour     (cFastBlack);
-    g.drawRect      (0, 0, WIDTH, HEIGHT);
+    g.fillAll       (colour_set[6]);
+    // g.setColour     (cFastBlack);
+    // g.drawRect      (0, 0, WIDTH, HEIGHT);
     // WaveDisplay (g, 80.0f);
     SpectralDisplay (g,   1.0f);
     SpiroDisplay    (g, 500.0f);
@@ -241,9 +255,13 @@ void GribAudioProcessorEditor::paint (juce::Graphics& g)
 void GribAudioProcessorEditor::resized()
 {
     SC.setBounds        (   0, 200, 512, 192);
+    // SS.setBounds        (   550, 200, 64, 64);
 
-form_operator_a.setBounds(  4,  18, 92, 18);
+    // form_operator_a.setBounds(  4,  18, 92, 18);
+    // form_operator_b.setBounds(100,  18, 92, 18);
+    // form_operator_c.setBounds(196,  18, 92, 18);
 
+    eds.setBounds(400,300,256,128);
     operator_a.setBounds(   0,  40, 96, 288);
     operator_b.setBounds(  96,  40, 96, 288);
     operator_c.setBounds( 192,  40, 96, 288);

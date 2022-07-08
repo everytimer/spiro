@@ -19,6 +19,9 @@ class Operator: public juce::Component
         NumberBox warp;     // Waveform dependent modulation
         NumberBox amp;      // Amplitude
 
+        bool hovered[6];
+
+        void drawBrace(juce::Graphics&, float, float, float, float, float);
         void resized () override;
         void paint (juce::Graphics& g) override;
         Operator();

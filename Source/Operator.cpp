@@ -1,6 +1,13 @@
 #include "Operator.h"
 
 
+void Operator::drawBrace(juce::Graphics& g, float xo, float yo, float xe, float ye, float th)
+{
+    g.drawLine(xo, yo, xe, yo, th);
+    g.drawLine(xo, yo, xo, ye, th);
+    g.drawLine(xo, ye, xe, ye, th);
+}
+
 
 Operator::Operator()
 {
@@ -11,23 +18,31 @@ Operator::Operator()
     coarse.setRange (40, 8000, 0);
     coarse.setTextValueSuffix (" Hz");
     coarse.setNumDecimalPlacesToDisplay (0);
-    coarse.setColour(juce::Slider::textBoxTextColourId, colour_set[4]);
-    coarse.setColour(juce::Slider::textBoxOutlineColourId, colour_set[4]);
 
-    fine.setColour  (juce::Slider::textBoxTextColourId, colour_set[3]);
-    fine.setColour  (juce::Slider::textBoxOutlineColourId, colour_set[3]);
+    coarse.setColour(juce::Slider::textBoxTextColourId, colour_set[11]);
+    coarse.setColour(juce::Slider::textBoxOutlineColourId, colour_set[9]);
+    coarse.setColour(juce::Slider::textBoxBackgroundColourId, colour_set[7]);
 
-    theta.setColour (juce::Slider::textBoxTextColourId, colour_set[2]);
-    theta.setColour (juce::Slider::textBoxOutlineColourId, colour_set[2]);
+    fine.setColour  (juce::Slider::textBoxTextColourId, colour_set[11]);
+    fine.setColour  (juce::Slider::textBoxOutlineColourId, colour_set[9]);
+    fine.setColour  (juce::Slider::textBoxBackgroundColourId, colour_set[7]);
 
-    fm.setColour    (juce::Slider::textBoxTextColourId, colour_set[0]);
-    fm.setColour    (juce::Slider::textBoxOutlineColourId, colour_set[0]);
+    theta.setColour (juce::Slider::textBoxTextColourId, colour_set[1]);
+    theta.setColour (juce::Slider::textBoxOutlineColourId, colour_set[9]);
+    theta.setColour (juce::Slider::textBoxBackgroundColourId, colour_set[7]);
 
-    warp.setColour  (juce::Slider::textBoxTextColourId, colour_set[0]);
-    warp.setColour  (juce::Slider::textBoxOutlineColourId, colour_set[0]);
+    fm.setColour    (juce::Slider::textBoxTextColourId, colour_set[1]);
+    fm.setColour    (juce::Slider::textBoxOutlineColourId, colour_set[9]);
+    fm.setColour    (juce::Slider::textBoxBackgroundColourId, colour_set[7]);
 
-    amp.setColour   (juce::Slider::textBoxTextColourId, colour_set[5]);
-    amp.setColour   (juce::Slider::textBoxOutlineColourId, colour_set[5]);
+    warp.setColour  (juce::Slider::textBoxTextColourId, colour_set[3]);
+    warp.setColour  (juce::Slider::textBoxOutlineColourId, colour_set[9]);
+    warp.setColour  (juce::Slider::textBoxBackgroundColourId, colour_set[7]);
+
+    amp.setColour   (juce::Slider::textBoxTextColourId, colour_set[3]);
+    amp.setColour   (juce::Slider::textBoxOutlineColourId, colour_set[9]);
+    amp.setColour   (juce::Slider::textBoxBackgroundColourId, colour_set[7]);
+
 
 
 
@@ -58,56 +73,34 @@ void Operator::paint (juce::Graphics& g)
 
     auto lh = area.getHeight()/12.0f;
 
-    g.setColour(colour_set[4]);
-    g.drawLine (s*1, (bh + gap) * 0 + ch, ctrl_area.getWidth(), (bh + gap) * 0 + ch, 1.0f);
-    g.drawLine (s*1, (bh + gap) * 0 + ch, s*1, area.getHeight()-lh*0, 1.0f);
-    g.drawLine (s*1, area.getHeight()-lh*0, area.getWidth()/3.0f, area.getHeight()-lh*0, 1.0f);
+    g.setColour(colour_set[9]);
+    drawBrace(g, s*1, (bh + gap) * 0 + ch, ctrl_area.getWidth(), area.getHeight()-lh*0, 1.0f);
 
+    g.setColour(colour_set[9]);
+    drawBrace(g, s*2, (bh + gap) * 1 + ch, ctrl_area.getWidth(), area.getHeight()-lh*1, 1.0f);
 
-    g.setColour(colour_set[3]);
-    g.drawLine (s*2, (bh + gap) * 1 + ch, ctrl_area.getWidth(), (bh + gap) * 1 + ch, 1.0f);
-    g.drawLine (s*2, (bh + gap) * 1 + ch, s*2, area.getHeight()-lh*1, 1.0f);
-    g.drawLine (s*2, area.getHeight()-lh*1, area.getWidth()/3.0f, area.getHeight()-lh*1, 1.0f);
+    g.setColour(colour_set[9]);
+    drawBrace(g, s*3, (bh + gap) * 2 + ch, ctrl_area.getWidth(), area.getHeight()-lh*2, 1.0f);
 
+    g.setColour(colour_set[9]);
+    drawBrace(g, s*4, (bh + gap) * 3 + ch, ctrl_area.getWidth(), area.getHeight()-lh*3, 1.0f);
 
-    g.setColour(colour_set[2]);
-    g.drawLine (s*3, (bh + gap) * 2 + ch, ctrl_area.getWidth(), (bh + gap) * 2 + ch, 1.0f);
-    g.drawLine (s*3, (bh + gap) * 2 + ch, s*3, area.getHeight()-lh*2, 1.0f);
-    g.drawLine (s*3, area.getHeight()-lh*2, area.getWidth()/3.0f, area.getHeight()-lh*2, 1.0f);
+    g.setColour(colour_set[9]);
+    drawBrace(g, s*5, (bh + gap) * 4 + ch, ctrl_area.getWidth(), area.getHeight()-lh*4, 1.0f);
 
-    g.setColour(colour_set[0]);
-    g.drawLine (s*4, (bh + gap) * 3 + ch, ctrl_area.getWidth(), (bh + gap) * 3 + ch, 1.0f);
-    g.drawLine (s*4, (bh + gap) * 3 + ch, s*4, area.getHeight()-lh*3, 1.0f);
-    g.drawLine (s*4, area.getHeight()-lh*3, area.getWidth()/3.0f, area.getHeight()-lh*3, 1.0f);
+    g.setColour(colour_set[9]);
+    drawBrace(g, s*6, (bh + gap) * 5 + ch, ctrl_area.getWidth(), area.getHeight()-lh*5, 1.0f);
 
-    g.setColour(colour_set[0]);
-    g.drawLine (s*5, (bh + gap) * 4 + ch, ctrl_area.getWidth(), (bh + gap) * 4 + ch, 1.0f);
-    g.drawLine (s*5, (bh + gap) * 4 + ch, s*5, area.getHeight()-lh*4, 1.0f);
-    g.drawLine (s*5, area.getHeight()-lh*4, area.getWidth()/3.0f, area.getHeight()-lh*4, 1.0f);
-
-    g.setColour(colour_set[5]);
-    g.drawLine (s*6, (bh + gap) * 5 + ch, ctrl_area.getWidth(), (bh + gap) * 5 + ch, 1.0f);
-    g.drawLine (s*6, (bh + gap) * 5 + ch, s*6, area.getHeight()-lh*5, 1.0f);
-    g.drawLine (s*6, area.getHeight()-lh*5, area.getWidth()/3.0f, area.getHeight()-lh*5, 1.0f);
-
-
-    g.setColour(colour_set[5]);
-
-    g.drawLine (t_area.getWidth() -     1, (bh + gap) * 5 + ch*2, t_area.getWidth() -     1, area.getHeight()-lh*3, 1.0f);
-    g.drawLine (t_area.getWidth() -     1, area.getHeight()-lh*3, s*17, area.getHeight()-lh*3, 1.0f);
-
-    g.drawLine (t_area.getWidth() -   s-1, (bh + gap) * 5 + ch*2, t_area.getWidth() -   s-1, area.getHeight()-lh*4, 1.0f);
-    g.drawLine (t_area.getWidth() -   s-1, area.getHeight()-lh*4, s*17, area.getHeight()-lh*4, 1.0f);
-
-    g.drawLine (t_area.getWidth() - s*2-1, (bh + gap) * 5 + ch*2, t_area.getWidth() - s*2-1, area.getHeight()-lh*5, 1.0f);
-    g.drawLine (t_area.getWidth() - s*2-1, area.getHeight()-lh*5, s*17, area.getHeight()-lh*5, 1.0f);
-
+    g.setColour(colour_set[9]);
+    drawBrace(g, t_area.getWidth()     -1, (bh + gap) * 5 + ch*2-1, s*17, area.getHeight()-lh*3, 1.0f);
+    drawBrace(g, t_area.getWidth()   -s-1, (bh + gap) * 5 + ch*2-1, s*17, area.getHeight()-lh*4, 1.0f);
+    drawBrace(g, t_area.getWidth() -s*2-1, (bh + gap) * 5 + ch*2-1, s*17, area.getHeight()-lh*5, 1.0f);
 
 }
 
 void Operator::resized ()
 {
-    area = getLocalBounds();
+    area   = getLocalBounds();
     t_area = area.withTrimmedBottom(area.getHeight()/2.0f);
     auto ctrl_area = area.withTrimmedLeft(t_area.getWidth()/3.0f).withHeight(t_area.getHeight()/8.0f);
     auto bh  = t_area.getHeight()/8.0f;

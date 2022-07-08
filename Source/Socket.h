@@ -11,11 +11,15 @@ class Sockets: public juce::Component
     public:
         cell::patchbay* bay;
         juce::Rectangle<int>    area;
-        bool  drag      = false;
-        float opacity   = 0.8f;
-        int   route = -1;
+        bool  drag    = false;
+        float opacity = 0.8f;
+        int   route   = -1;
+        bool  i_armed = false;
+        bool  o_armed = false;
 
         void drawIns(juce::Graphics&, juce::Colour, int);
+        void drawOuts(juce::Graphics&, juce::Colour, int);
+
         void drawSockets(juce::Graphics&, juce::Colour);
         void drawCords(juce::Graphics&, float);
         void mouseUp (const juce::MouseEvent&) override;

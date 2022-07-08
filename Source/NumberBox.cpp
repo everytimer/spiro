@@ -19,6 +19,7 @@ NumberBox::~NumberBox(){}
 
 void NumberBox::paint (juce::Graphics& g)
 {
+    g.fillAll(findColour (juce::Slider::textBoxBackgroundColourId));
     auto bounds = getLocalBounds().toFloat();
     auto h = bounds.getHeight();
     auto w = bounds.getWidth();
@@ -46,3 +47,15 @@ void NumberBox::mouseUp (const juce::MouseEvent& event)
     juce::Desktop::getInstance().getMainMouseSource().setScreenPosition (event.source.getLastMouseDownPosition());
     setMouseCursor (juce::MouseCursor::NormalCursor);
 }
+
+// void NumberBox::mouseEnter (const juce::MouseEvent& event)
+// {
+//     setColour(juce::Slider::textBoxOutlineColourId, hoveredColour); // 3 : PaleOlive
+//     repaint();
+// }
+
+// void NumberBox::mouseExit (const juce::MouseEvent& event)
+// {
+//     setColour(juce::Slider::textBoxOutlineColourId, normalColour);
+//     repaint();
+// }

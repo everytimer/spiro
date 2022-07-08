@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////
-// SPAWNER 
+// SPAWNER - Interface
 // V.0.2.2 2022-06-20
 ////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
@@ -9,34 +9,36 @@
 
 #include "containers.hpp"
 #include "iospecs.hpp"
-#include "oscillator.h"
+#include "voice.h"
 
 
 
 namespace cell {
 ////////////////////////////////////////////////////////////////////////////////////////
 // Feed the destination audio buffer ///////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+// CVS - Control values ////////////////////////////////////////////////////////////////
+// cvs[oscillator][]
 class spawner
 {  
     private:
     public:
-        oscillator* vco;
-        frame<point3d<float>>* data;  // Buffer
-        iospecs* settings;            // System settings
-        int oscn = 1;                 // Oscillators quantity
-        float   volume = 0.5f;        // Overall amplitude
-        unsigned long long departed = 0; // Samples counter
+        voice* v;
+        frame<point3d<float>>* data;    // Buffer
+        frame<float>* cvs;              // Control values
+        iospecs* settings;              // System settings
+        float volume = 0.5f;            // Overall amplitude
+        uint  departed = 0;             // Samples counter
+        const int poly;                 // Polyphony
 
         float angle[3];
-
         void spawn();
         void init();
         void free();
         void reset();
-        void trigger(float);
-        void trigger2(float);
+        void trigger(int, float);
         void iterate();
-        spawner(frame<point3d<float>>*, iospecs*);
+        spawner(frame<point3d<float>>*, iospecs*, const int);
         ~spawner();
 };
 
