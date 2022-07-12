@@ -9,4 +9,3 @@ class SpriteSlider : public juce::Slider
         juce::Image imageKnob;
         SpriteSlider();
 };
-

@@ -46,7 +46,7 @@ inline void vBlur(frame<float>* data, uint scale = 1)
     }
 }
 
-inline void boxBlur(frame<float>* data, uint scale = 1)
+inline void boxBlur(frame<float>* data, uint scale = 1, float f = 0.0f)
 {
     int range = scale * 2 + 1;
     for(uint y = 0; y < data->height; y++)
@@ -58,7 +58,7 @@ inline void boxBlur(frame<float>* data, uint scale = 1)
             {   
                 car += data->get(x + i, y);
             }
-            car /= range;
+            car /= float(range)+f;
             data->set(x + scale, y, car);
         }
     }
@@ -72,11 +72,55 @@ inline void boxBlur(frame<float>* data, uint scale = 1)
             {   
                 car += data->get(x, y + i);
             }
-            car /= range;
+            car /= float(range)+f;
             data->set(x, y + scale, car);
         }
     }
 }
+
+
+inline void alphaGradientFrame(frame<float>* data, uint n)
+{
+    float d = 1.0f/float(n);
+    float f = 1.0f;
+
+    for(uint y = (data->height-n); y < data->height; y++)
+    {
+        f -= d;
+        for(uint x = 0; x < data->width; x++)
+        {
+            data->set(x, y, data->get(x, y)*f);
+        }
+    }
+    f = 1.0f;
+    for(uint y = n; y > 0; y--)
+    {
+        f -= d;
+        for(uint x = 0; x < data->width; x++)
+        {
+            data->set(x, y, data->get(x, y)*f);
+        }
+    }
+    f = 1.0f;
+    for(uint x = (data->width-n); x < data->width; x++)
+    {
+        f-=d;
+        for(uint y = 0; y < data->height; y++)
+        {
+            data->set(x, y, data->get(x, y)*f);
+        }
+    }
+    f = 1.0f;
+    for(uint x = n; x > 0; x--)
+    {
+        f-=d;
+        for(uint y = 0; y < data->height; y++)
+        {
+            data->set(x, y, data->get(x, y)*f);
+        }
+    }
+}
+
 
 };
 

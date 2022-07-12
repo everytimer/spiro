@@ -11,6 +11,7 @@ class Sockets: public juce::Component
     public:
         cell::patchbay* bay;
         juce::Rectangle<int>    area;
+
         bool  drag    = false;
         float opacity = 0.8f;
         int   route   = -1;

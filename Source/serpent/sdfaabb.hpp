@@ -9,7 +9,7 @@
 
 namespace cell {
 
-float capsule_sdf(float px, float py, float ax, float ay, float bx, float by, float r) 
+inline float capsule_sdf(float px, float py, float ax, float ay, float bx, float by, float r) 
 {
     float pax = px - ax, pay = py - ay, bax = bx - ax, bay = by - ay;
     float h = fmaxf(fminf((pax * bax + pay * bay) / (bax * bax + bay * bay), 1.0f), 0.0f);
@@ -17,13 +17,13 @@ float capsule_sdf(float px, float py, float ax, float ay, float bx, float by, fl
     return sqrtf(dx * dx + dy * dy) - r;
 }
 
-void alphablend(cell::frame<float>* canvas, int x, int y, float alpha) 
+inline void alphablend(cell::frame<float>* canvas, int x, int y, float alpha) 
 {
     auto a = canvas->get(x, y);
     canvas->set(x, y, a * (1.0f - alpha) + alpha);
 }
 
-void lineSDFAABB(cell::frame<float>* canvas, float ax, float ay, float bx, float by, float radius, float alpha) 
+inline void lineSDFAABB(cell::frame<float>* canvas, float ax, float ay, float bx, float by, float radius, float alpha) 
 {
     int x0 = (int)floorf(fminf(ax, bx) - radius);
     int x1 = (int) ceilf(fmaxf(ax, bx) + radius);

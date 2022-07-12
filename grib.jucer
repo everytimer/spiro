@@ -102,6 +102,8 @@
       <FILE id="raUZBh" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="pPgBMD" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="uGYzyL" name="RadioButton.cpp" compile="1" resource="0" file="Source/RadioButton.cpp"/>
+      <FILE id="KIfESz" name="RadioButton.h" compile="0" resource="0" file="Source/RadioButton.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

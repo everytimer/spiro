@@ -108,8 +108,6 @@ std::vector<float> imprint(oscillator*, int, int);
 
 inline void (*form[])(oscillator*) = 
 {    
-        oRotor,
-        oSine,   
         // 3D //////////////
         oSphere,        // 0
         oCube,          // 1

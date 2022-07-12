@@ -5,20 +5,17 @@ ListSlider::ListSlider()
     setSliderStyle (juce::Slider::LinearBar );
     setColour (juce::Slider::trackColourId, juce::Colours::transparentWhite);
     setTextBoxIsEditable (false);
-    // setVelocityBasedMode (true);
-    // setVelocityModeParameters (0.0, 10, 0.0, false);
     setRange (0.0f, 10.0f, 1.0f);
     setValue (0.0);
-    // setDoubleClickReturnValue (true, 0.0f);
     setTextValueSuffix ("");
     setWantsKeyboardFocus (true);
-
 }
 
 ListSlider::~ListSlider(){}
 
 void ListSlider::paint (juce::Graphics& g)
 {
+    g.fillAll(findColour (juce::Slider::backgroundColourId));
     auto bounds = getLocalBounds().toFloat();
     auto h = bounds.getHeight();
     auto w = bounds.getWidth();

@@ -35,11 +35,12 @@ float envelope::iterate()
 {
     if(stage>=0)
     {
-    feed = formEnvelope[node[stage].curve](float(departed), node[stage-1].value, delta, node[stage].time);
-    departed++;
-    if(departed > node[stage].time) next_stage();
+        feed = formEnvelope[node[stage].curve](float(departed), node[stage-1].value, delta, node[stage].time);
+        departed++;
+        if (departed >= node[stage].time) next_stage();
+        return feed;
     }
-    return feed;
+    return 0.000001f;
 }
 
 
@@ -87,40 +88,7 @@ float fCubicIO(float t, float b, float c, float d)
         t -= 2;
         return c * 0.5f * (t*t*t + 2.0f) + b;
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// float envelope::coefficient(float start_value, float end_value, uint length) 
-// {
-//         if(curve==LIN) return (end_value-start_value)/float(length);
-//         if(curve==LOG) return (log(end_value)-log(start_value))/float(length);
-//         return 1;
-// }
-
-
-// vector<float> imprint(cell::envelope *node, int offset_left, int offset_right)
-// {
-//     float w =   node->node.A.time + 
-//                 node->node.D.time + 
-//                 node->node.S.time + 
-//                 node->node.R.time ;
-//     std::vector<float> r(offset_left,0);
-//                 node->start();
-//                 int i = 0;
-            
-//                 while (i<int(w))
-//                 {
-//                     r.push_back(node->iterate()); 
-//                     i++; 
-//                 }
-//                 i=0;
-//                 while (i<offset_right)
-//                 {
-//                     r.push_back(0); i++;
-//                 }
-                
-//     return r;
-// }
-
 };

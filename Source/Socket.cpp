@@ -1,6 +1,6 @@
 #include "Socket.h"
-
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Sockets::Sockets(int w, int h, int n)
 {
@@ -15,26 +15,26 @@ Sockets::Sockets(int w, int h, int n)
     bay->set_socket(  37, 103, 5,  4, 0x0FB00009, 1);
     bay->set_socket(  37, 127, 5,  5, 0x0FA00009, 1);
     // Operator B ///////////////////////////////////
-    bay->set_socket( 133,   7, 5,  6, 0x0F900009, 1);
-    bay->set_socket( 133,  31, 5,  7, 0x0F800009, 1);
-    bay->set_socket( 133,  55, 5,  8, 0x0F700009, 1);
-    bay->set_socket( 133,  79, 5,  9, 0x0F600009, 1);
-    bay->set_socket( 133, 103, 5, 10, 0x0F500009, 1);
-    bay->set_socket( 133, 127, 5, 11, 0x0F400009, 1);
+    bay->set_socket( 137,   7, 5,  6, 0x0F900009, 1);
+    bay->set_socket( 137,  31, 5,  7, 0x0F800009, 1);
+    bay->set_socket( 137,  55, 5,  8, 0x0F700009, 1);
+    bay->set_socket( 137,  79, 5,  9, 0x0F600009, 1);
+    bay->set_socket( 137, 103, 5, 10, 0x0F500009, 1);
+    bay->set_socket( 137, 127, 5, 11, 0x0F400009, 1);
     // Operator C ///////////////////////////////////
-    bay->set_socket( 229,   7, 5, 12, 0x0F300009, 1);
-    bay->set_socket( 229,  31, 5, 13, 0x0F200009, 1);
-    bay->set_socket( 229,  55, 5, 14, 0x0F100009, 1);
-    bay->set_socket( 229,  79, 5, 15, 0x0F000009, 1);
-    bay->set_socket( 229, 103, 5, 16, 0x0EF00009, 1);
-    bay->set_socket( 229, 127, 5, 17, 0x0EE00009, 1);
+    bay->set_socket( 237,   7, 5, 12, 0x0F300009, 1);
+    bay->set_socket( 237,  31, 5, 13, 0x0F200009, 1);
+    bay->set_socket( 237,  55, 5, 14, 0x0F100009, 1);
+    bay->set_socket( 237,  79, 5, 15, 0x0F000009, 1);
+    bay->set_socket( 237, 103, 5, 16, 0x0EF00009, 1);
+    bay->set_socket( 237, 127, 5, 17, 0x0EE00009, 1);
     // Operator D ///////////////////////////////////
-    bay->set_socket( 325,   7, 5, 18, 0x0ED00009, 1);
-    bay->set_socket( 325,  31, 5, 19, 0x0EC00009, 1);
-    bay->set_socket( 325,  55, 5, 20, 0x0EB00009, 1);
-    bay->set_socket( 325,  79, 5, 21, 0x0EA00009, 1);
-    bay->set_socket( 325, 103, 5, 22, 0x0E900009, 1);
-    bay->set_socket( 325, 127, 5, 23, 0x0E800009, 1);
+    bay->set_socket( 337,   7, 5, 18, 0x0ED00009, 1);
+    bay->set_socket( 337,  31, 5, 19, 0x0EC00009, 1);
+    bay->set_socket( 337,  55, 5, 20, 0x0EB00009, 1);
+    bay->set_socket( 337,  79, 5, 21, 0x0EA00009, 1);
+    bay->set_socket( 337, 103, 5, 22, 0x0E900009, 1);
+    bay->set_socket( 337, 127, 5, 23, 0x0E800009, 1);
     /////////////////////////////////////////////////
     // Outputs //////////////////////////////////////
     // Operator A ///////////////////////////////////
@@ -42,17 +42,17 @@ Sockets::Sockets(int w, int h, int n)
     bay->set_socket(  75,  31, 5, 25, 0x08E00009, 0);
     bay->set_socket(  75,  55, 5, 26, 0x08D00009, 0);
     // Operator B ///////////////////////////////////
-    bay->set_socket( 171,   7, 5, 27, 0x08C00009, 0);
-    bay->set_socket( 171,  31, 5, 28, 0x08B00009, 0);
-    bay->set_socket( 171,  55, 5, 29, 0x08A00009, 0);
+    bay->set_socket( 175,   7, 5, 27, 0x08C00009, 0);
+    bay->set_socket( 175,  31, 5, 28, 0x08B00009, 0);
+    bay->set_socket( 175,  55, 5, 29, 0x08A00009, 0);
     // Operator C ///////////////////////////////////
-    bay->set_socket( 267,   7, 5, 30, 0x08900009, 0);
-    bay->set_socket( 267,  31, 5, 31, 0x08800009, 0);
-    bay->set_socket( 267,  55, 5, 32, 0x08700009, 0);
+    bay->set_socket( 275,   7, 5, 30, 0x08900009, 0);
+    bay->set_socket( 275,  31, 5, 31, 0x08800009, 0);
+    bay->set_socket( 275,  55, 5, 32, 0x08700009, 0);
     // Operator D ///////////////////////////////////
-    bay->set_socket( 363,   7, 5, 33, 0x08600009, 0);
-    bay->set_socket( 363,  31, 5, 34, 0x08500009, 0);
-    bay->set_socket( 363,  55, 5, 35, 0x08400009, 0);
+    bay->set_socket( 375,   7, 5, 33, 0x08600009, 0);
+    bay->set_socket( 375,  31, 5, 34, 0x08500009, 0);
+    bay->set_socket( 375,  55, 5, 35, 0x08400009, 0);
     /////////////////////////////////////////////////
     /////////////////////////////////////////////////
     bay->draw();
@@ -125,7 +125,7 @@ void Sockets::drawCords(juce::Graphics& g, float alpha)
         {
             pre = car;
             car = bay->io[j].cord.data[i];
-            g.drawLine(pre.x, pre.y, car.x, car.y, 3.0f);
+            g.drawLine(pre.x, pre.y, car.x, car.y, 2.0f);
         }
     }
 }
@@ -133,14 +133,8 @@ void Sockets::drawCords(juce::Graphics& g, float alpha)
 
 void Sockets::paint (juce::Graphics& g)
 {
-    //g.fillAll (cGreyLcd.withAlpha (0.1f));
-    // g.setColour(colour_set[0]);
-    // g.drawRect (area);
-
     drawCords(g, 1.0f);
     drawSockets(g, colour_set[0]);
-    // drawOuts(g, colour_set[6], 0);
-    // if(i_armed) 
 }
 
 void Sockets::resized ()
@@ -178,3 +172,5 @@ void Sockets::mouseUp (const juce::MouseEvent& event)
     setMouseCursor (juce::MouseCursor::NormalCursor);
     repaint();
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////

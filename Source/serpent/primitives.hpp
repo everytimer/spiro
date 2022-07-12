@@ -70,9 +70,9 @@ inline void drawLineV(cell::frame<float>* canvas, int xo, int yo, int ye, const 
     }
 }
 
-inline void drawLineH(cell::frame<float>* canvas, int xo, int yo, int width, const float alpha)
+inline void drawLineH(cell::frame<float>* canvas, int xo, int yo, int xe, const float alpha)
 {
-    for(int i = xo; i <= xo + width; i++)
+    for(int i = xo; i <= xe; i++)
     {
         canvas->set(i, yo, alpha);
     }

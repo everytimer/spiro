@@ -11,13 +11,14 @@ void cell::spawner::spawn()
 {
     for(int i = 0; i < settings->buffer_size; i++)
     {
+        v[0].vco[0].theta     = cvs->get(0, 0);
 
-        form[0](&v[0].vco[0]);
-        form[0](&v[0].vco[1]);
-        form[0](&v[0].vco[2]);
+        form[int(cvs->get(0,4))](&v[0].vco[0]);
+        form[int(cvs->get(1,4))](&v[0].vco[1]);
+        form[int(cvs->get(2,4))](&v[0].vco[2]);
         *v[0].vco[0].fm = v[0].vco[2].out.y*0.01;
-        // point3d<float> C { v[0].vco[0].out.y, v[0].vco[1].out.y, v[0].vco[2].out.y };
-        point3d<float>  C = sphericalToCartesian(v[0].vco[0].out.y, v[0].vco[1].out.y);
+
+        point3d<float> C { v[0].vco[0].out.x, v[0].vco[0].out.y, v[0].vco[0].out.z };
         auto o = Rotate(C, angle[0], angle[1], angle[2]);
         // auto o = v[0].vco[1].out;
         o.x *= volume;

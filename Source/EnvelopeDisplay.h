@@ -6,7 +6,9 @@
 #include "serpent/envelopes.h"
 #include "serpent/primitives.hpp"
 #include "serpent/containers.hpp"
+#include "ListSlider.h"
 #include "NumberBox.h"
+#include "RadioButton.h"
 ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
 class EnvelopeDisplay  : public juce::Component
@@ -14,17 +16,16 @@ class EnvelopeDisplay  : public juce::Component
     private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EnvelopeDisplay)
     public:
-        float diameter = 14;
+        float radius = 6;
+        float diameter = radius*2;
 
-        NumberBox A;
-        NumberBox R;
-        float aA = 0.05f, rR = 0.5f; 
+        float aA = 0.15f, rR = 0.7f; 
         cell::envelope env;
         cell::frame<float>*  canvas;
         juce::Rectangle<int> area;
         juce::Rectangle<int> display;
 
-
+        int radio_id = 0xFA;
 
         void plot(juce::Graphics& g, float scale);
 
@@ -38,14 +39,15 @@ class EnvelopeDisplay  : public juce::Component
             juce::ComponentDragger node;
             juce::ComponentBoundsConstrainer constrainer;
             EnvelopeDisplay* parent;
-            int x, y;
+            int x,  y;
+            int cl, cr; // Left/Right constrain
+            int ct, cb; // Top/Bottom constrain
 
             void paint (juce::Graphics& g) override
             {
-                auto bounds = getLocalBounds().reduced  (1);
-                auto blue = juce::Colour::fromFloatRGBA (0.42f, 0.83f, 1.0f,  0.7f);
+                auto bounds = getLocalBounds();
 
-                g.setColour (blue.withAlpha (0.5f));
+                g.setColour (colour_set[4].withAlpha (0.5f));
                 g.fillEllipse (bounds.toFloat());
             }
 
@@ -56,9 +58,15 @@ class EnvelopeDisplay  : public juce::Component
 
             void mouseDrag (const juce::MouseEvent& event) override
             {
+                
                 node.dragComponent (this, event, &constrainer);
                 x = getX() + getWidth ()/2;
                 y = getY() + getHeight()/2;
+
+                if(x>=cr) setCentrePosition(x=cr, y);
+                if(x<=cl) setCentrePosition(x=cl, y);
+                if(y>=cb) setCentrePosition(x, y=cb);
+
                 parent->repaint();
             }
 
@@ -81,6 +89,16 @@ class EnvelopeDisplay  : public juce::Component
         NodePoint npd;
         NodePoint nps;
         NodePoint npr;
+
+        RadioButton ENV_A;
+        RadioButton ENV_B;
+        RadioButton ENV_C;
+        RadioButton ENV_D;
+        RadioButton ENV_E;
+        RadioButton ENV_F;
+        // void mouseUp (const juce::MouseEvent&) override;
+        // void mouseDrag (const juce::MouseEvent&) override;
+        void mouseDown(const juce::MouseEvent&) override;
 
         EnvelopeDisplay ();
        ~EnvelopeDisplay() override;

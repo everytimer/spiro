@@ -15,10 +15,9 @@ namespace cell{
     
 struct breakpoint
 {
-    enum  type  { LIN, LOG, CUB, SFT };
     uint  time  = 0;
     float value = 0.0f;
-    type  curve = SFT;
+    uint  curve = 3;
 };
 
 

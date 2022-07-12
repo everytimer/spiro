@@ -12,18 +12,22 @@
 #include "Operator.h"
 #include "EnvelopeDisplay.h"
 #include "ListSlider.h"
+#include "lists.hpp"
 #include "serpent/spectrum.hpp"
 #include "serpent/blur.hpp"
 #include "serpent/primitives.hpp"
+#include "serpent/sdfaabb.hpp"
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juce::Timer//, public juce::MidiInputCallback
+class GribAudioProcessorEditor: public juce::AudioProcessorEditor , public juce::Timer//, public juce::MidiInputCallback
 {
     public:
-        uint WIDTH  = 900;
-        uint HEIGHT = 506;
+        uint WIDTH  = 1000;
+        uint HEIGHT = 562;
         juce::Rectangle<int> rWaveDisplay;
         juce::Rectangle<int> rSpiroDisplay;
+        juce::Rectangle<int> rSpectreDisplay;
+
 
         void WaveDisplay (juce::Graphics&, float);
         void SpectralDisplay (juce::Graphics&, float);
@@ -33,6 +37,7 @@ class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juc
         
         cell::frame<float>* spCanvas;
         cell::frame<float>* wdCanvas;
+        cell::frame<float>* sdCanvas;
 
         // cell::spectre spectrum {128, 48000};
 
@@ -47,14 +52,21 @@ class GribAudioProcessorEditor  : public juce::AudioProcessorEditor , public juc
     private:
 
         GribAudioProcessor& audioProcessor;
-        InfSlider spRotateX;
-        InfSlider spRotateY;
-        InfSlider spRotateZ;
-       
+
+        Rot3Slider spdXYZ;
         Operator operator_a;
         Operator operator_b;
         Operator operator_c;
         Operator operator_d;
+        Operator operator_e;
+        Operator operator_f;
+
+        ListSlider form_a;
+        ListSlider form_b;
+        ListSlider form_c;
+        ListSlider form_d;
+        ListSlider form_e;
+        ListSlider form_f;
 
         fSlider   wdVolume;
               

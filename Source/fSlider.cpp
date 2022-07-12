@@ -13,15 +13,6 @@ fSlider::fSlider()
     setDoubleClickReturnValue (true, 0.0f);
     setTextValueSuffix ("");
     setWantsKeyboardFocus (true);
-    // onValueChange = [&]()
-    // {
-    //     if (getValue() < 10)
-    //         setNumDecimalPlacesToDisplay(2);
-    //     else if (10 <= getValue() && getValue() < 100)
-    //         setNumDecimalPlacesToDisplay(1);
-    //     else
-    //         setNumDecimalPlacesToDisplay(0);
-    // };
 }
 
 fSlider::~fSlider(){}
@@ -34,45 +25,13 @@ void fSlider::paint (juce::Graphics& g)
     auto xo = bounds.getCentreX();
     auto yo = bounds.getCentreY();
     
-
-
     g.setColour (findColour (juce::Slider::backgroundColourId));
-    // g.fillRoundedRectangle(bounds, 4);
-    g.drawRect(bounds);
+    g.fillRect(bounds);
+    
     g.setColour (findColour (juce::Slider::trackColourId));
+    g.drawRect(bounds);
     auto f = getValue();
     g.fillRect(0.0, 0.0, f*w, h);
-
-
-    // g.drawEllipse(bounds.getX()+h/8, bounds.getY()+h/8, h-h/4, h-h/4, 1.0f);
-
-    // g.fillEllipse(sin(c)*h/2.7+xo - h/16, cos(c)*h/2.7+yo - h/16, h/8, h/8);
-
-    
-
-    // if (hasKeyboardFocus (false))
-    // {
-
-        // auto len = juce::jmin (h, w) * 0.15f;
-        // auto thick  = len / 1.8f;
-
-
-        // Left top
-        // g.drawLine (0.0f, 0.0f, 0.0f, len, thick);
-        // g.drawLine (0.0f, 0.0f, len, 0.0f, thick);
-
-        // // Left bottom
-        // g.drawLine (0.0f, h, 0.0f, h - len, thick);
-        // g.drawLine (0.0f, h, len, h, thick);
-
-        // // Right top
-        // g.drawLine (w, 0.0f, w, len, thick);
-        // g.drawLine (w, 0.0f, w - len, 0.0f, thick);
-
-        // // Right bottom
-        // g.drawLine (w, h, w, h - len, thick);
-        // g.drawLine (w, h, w - len, h, thick);
-    // }
 }
 
 void fSlider::mouseDown (const juce::MouseEvent& event)
